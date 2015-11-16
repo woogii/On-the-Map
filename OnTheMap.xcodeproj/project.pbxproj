@@ -14,6 +14,7 @@
 		D22140AB1BF8CC8400150D1D /* OnTheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140AA1BF8CC8400150D1D /* OnTheMapTests.swift */; };
 		D22140B61BF8CC8400150D1D /* OnTheMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140B51BF8CC8400150D1D /* OnTheMapUITests.swift */; };
 		D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140C31BF8CD2D00150D1D /* LoginViewController.swift */; };
+		D22140C61BF9B00C00150D1D /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140C51BF9B00C00150D1D /* UdacityClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D22140B51BF8CC8400150D1D /* OnTheMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapUITests.swift; sourceTree = "<group>"; };
 		D22140B71BF8CC8400150D1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D22140C31BF8CD2D00150D1D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D22140C51BF9B00C00150D1D /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				D221409E1BF8CC8400150D1D /* LaunchScreen.storyboard */,
 				D22140A11BF8CC8400150D1D /* Info.plist */,
 				D22140C31BF8CD2D00150D1D /* LoginViewController.swift */,
+				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			files = (
 				D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */,
 				D22140961BF8CC8400150D1D /* AppDelegate.swift in Sources */,
+				D22140C61BF9B00C00150D1D /* UdacityClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
