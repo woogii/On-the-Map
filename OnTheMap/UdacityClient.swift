@@ -16,12 +16,33 @@ class UdacityClient : NSObject {
     var sessionID : String? = nil
     var userID: String? = nil
     
+    let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+    let restApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
     
-    func postLoginRequest (username:String, password:String, completionHandler : (result:String?, error:NSError?)-> Void)  {
+    func processAuthentication(username:String, password:String,
+        completionHandler:(success:Bool, erroString:String?)->Void) {
+        
+        self.postLoginSession(username, password: password) { (success, userID, errorString) in
+            
+            if success {
+                self.userID = userID
+                
+                self.getUserData(userID!) { (success, errorString) in
+
+                    completionHandler(success: success, erroString: errorString)
+                }
+            } else {
+                completionHandler(success: success, erroString: errorString)
+            }
+        }
+    }
+    
+    func postLoginSession (username:String, password:String, completionHandler : (success:Bool, userID:String?, errorString:String?)-> Void)  {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
               
@@ -29,48 +50,102 @@ class UdacityClient : NSObject {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        //request.HTTPBody = "{\"udacity\": {\"username\": \"account@domain.com\", \"password\": \"********\"}}".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
         
         taskForPOSTMethod(request) { JSONResult , error in
             
-            if let error = error {
-                completionHandler(result: nil, error: error)
+            if let err = error {
+                print(err)
+                completionHandler(success: false, userID: nil, errorString: "Login Failed(Create Session)")
             } else {
                 
-                if let session = JSONResult["account"] as? NSDictionary {
+                if let accountInfo = JSONResult["account"] as? NSDictionary {
                     
-                    if let result = session["key"] as? String {
-                        completionHandler(result: result, error: nil)
+                    if let userID = accountInfo["key"] as? String {
+                    
+                        completionHandler(success: true, userID: userID, errorString: nil)
                     }
-                    
                 } else {
-                    completionHandler(result: nil, error: NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToFavoritesList"]))
+                    completionHandler(success: false, userID: nil, errorString: "Login Failed(Create Session")
                 }
             }
             
         }
     }
     
-//        {
-//            let session = NSURLSession.sharedSession()
-//            let task = session.dataTaskWithRequest(request) { data, response, error in
-//            
-//                if error != nil { // Handle error
-//                print(error)
-//                return
-//                }
-//            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-//            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
-//        }
-//        task.resume()
+    func getUserData( userID:String, completionHandler: (success:Bool, errorString:String?)->Void) {
+        print(userID)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userID)")!)
+        request.HTTPMethod = "GET"
         
+        taskForGETMethod(request) {  (JSONResult, error) in
+            
+            if let err = error { // Handle error...
+                print(err)
+                completionHandler(success:false, errorString:"Fetch Failed(Network error)")
+            } else {
+                
+                if let result = JSONResult.valueForKey("user") as? NSDictionary    {
+                    print(result)
+                    if let last_name = result.valueForKey("last_name") as? String {
+                        print(last_name)
+                        completionHandler( success: true, errorString:nil)
+                    }
+                
+                } else {
+                    completionHandler(success: false, errorString: "Login Error")
+                }
+            }
+            
+        }
+    }
     
+
     
+    // MARK: GET
+    
+    func taskForGETMethod(request:NSMutableURLRequest, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         
-    //func taskForPOSTMethod(: String, parameters: [String : AnyObject], jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                if let response = response as? NSHTTPURLResponse {
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                } else if let response = response {
+                    print("Your request returned an invalid response! Response: \(response)!")
+                } else {
+                    print("Your request returned an invalid response!")
+                }
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                print("No data was returned by the request!")
+                return
+            }
+            
+            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+            //print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            /* 5/6. Parse the data and use the data (happens in completion handler) */
+            UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
+        }
         
+        /* 7. Start the request */
+        task.resume()
+        
+        return task
+    }
+
     func taskForPOSTMethod (request:NSMutableURLRequest, completionHandler: (result:AnyObject!, error:NSError?)->Void)->NSURLSessionDataTask? {
         
         /* 4. Make the request */

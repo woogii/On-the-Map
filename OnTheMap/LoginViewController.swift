@@ -24,7 +24,9 @@ class LoginViewController : UIViewController {
     
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
-        UdacityClient.sharedInstance().postLoginRequest(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
+        userNameTextField.text = "siwookhyun@gmail.com"
+
+        UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
             
             if let err = error {
                 print(err)
@@ -46,29 +48,7 @@ class LoginViewController : UIViewController {
         super.viewDidLoad()
         session = NSURLSession.sharedSession()
     }
-    
-//    func getSessionId() {
-//        
-//        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-//        request.HTTPMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.HTTPBody = "{\"udacity\": {\"username\": \"\(userNameTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
-//       
-//        
-//        let session = NSURLSession.sharedSession()
-//        let task = session.dataTaskWithRequest(request) { data, response, error in
-//            if error != nil { // Handle error
-//                print(error)
-//                return
-//            }
-//            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-//            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
-//        }
-//        task.resume()
-//
-//    }
-    
+        
     func escapedParameters(parameters: [String : AnyObject]) -> String {
         
         var urlVars = [String]()
