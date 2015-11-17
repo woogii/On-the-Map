@@ -14,30 +14,64 @@ class UdacityClient : NSObject {
     
     let baseURLSecure :String = "https://www.udacity.com/api/"
     var sessionID : String? = nil
+    var userID: String? = nil
     
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
-
-      
-    func taskForPOSTMethod(method: String, parameters: [String : AnyObject], jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    
+    func postLoginRequest (username:String, password:String, completionHandler : (result:String?, error:NSError?)-> Void)  {
         
-        /* 1. Set the parameters */
-        //var mutableParameters = parameters
-        //mutableParameters[ParameterKeys.ApiKey] = Constants.ApiKey
-        
-        /* 2/3. Build the URL and configure the request */
-        let urlString = baseURLSecure + method + UdacityClient.escapedParameters(parameters)
-        let url = NSURL(string: urlString)!
-        let request = NSMutableURLRequest(URL: url)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+              
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        do {
-            request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
+        //request.HTTPBody = "{\"udacity\": {\"username\": \"account@domain.com\", \"password\": \"********\"}}".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
+        
+        taskForPOSTMethod(request) { JSONResult , error in
+            
+            if let error = error {
+                completionHandler(result: nil, error: error)
+            } else {
+                
+                if let session = JSONResult["account"] as? NSDictionary {
+                    
+                    if let result = session["key"] as? String {
+                        completionHandler(result: result, error: nil)
+                    }
+                    
+                } else {
+                    completionHandler(result: nil, error: NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToFavoritesList"]))
+                }
+            }
+            
         }
+    }
+    
+//        {
+//            let session = NSURLSession.sharedSession()
+//            let task = session.dataTaskWithRequest(request) { data, response, error in
+//            
+//                if error != nil { // Handle error
+//                print(error)
+//                return
+//                }
+//            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+//            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+//        }
+//        task.resume()
+        
+    
+    
+        
+        
+    //func taskForPOSTMethod(: String, parameters: [String : AnyObject], jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+    func taskForPOSTMethod (request:NSMutableURLRequest, completionHandler: (result:AnyObject!, error:NSError?)->Void)->NSURLSessionDataTask? {
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -66,13 +100,13 @@ class UdacityClient : NSObject {
                 return
             }
             
+            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             /* 5/6. Parse the data and use the data (happens in completion handler) */
-            UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
         }
         
         /* 7. Start the request */
         task.resume()
-        
         
         return task
     }
@@ -111,7 +145,7 @@ class UdacityClient : NSObject {
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
-    class func sharedInstance() ->UdacityClient {
+    class func sharedInstance()->UdacityClient {
         
         struct Singleton {
             static var sharedInstance = UdacityClient()
@@ -125,38 +159,38 @@ class UdacityClient : NSObject {
 extension UdacityClient {
     
     
-    
-    func postForSessionId(username: String, password: String, completionHandler: (result: Int?, error: NSError?) -> Void)  {
-        
-        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        let parameters = [
-            "username" : username,
-            "password" : password
-        ]
-        
-        var mutableMethod : String = "api/session"
-        
-        let jsonBody : [String:AnyObject] = [
-            "server": "udacity",
-            "username": username,
-            "password": password,
-        ]
-        
-        /* 2. Make the request */
-        taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { JSONResult, error in
-            
-            /* 3. Send the desired value(s) to completion handler */
-            if let error = error {
-                completionHandler(result: nil, error: error)
-            } else {
-                if let results = JSONResult["account"] as? Int {
-                    print(results)
-                    completionHandler(result: results, error: nil)
-                } else {
-                    completionHandler(result: nil, error: NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToFavoritesList"]))
-                }
-            }
-        }
-    }
+//    
+//    func postForSessionId(username: String, password: String, completionHandler: (result: Int?, error: NSError?) -> Void)  {
+//        
+//        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
+//        let parameters = [
+//            "username" : username,
+//            "password" : password
+//        ]
+//        
+//        var mutableMethod : String = "api/session"
+//        
+//        let jsonBody : [String:AnyObject] = [
+//            "server": "udacity",
+//            "username": username,
+//            "password": password,
+//        ]
+//        
+//        /* 2. Make the request */
+//        taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { JSONResult, error in
+//            
+//            /* 3. Send the desired value(s) to completion handler */
+//            if let error = error {
+//                completionHandler(result: nil, error: error)
+//            } else {
+//                if let results = JSONResult["account"] as? Int {
+//                    print(results)
+//                    completionHandler(result: results, error: nil)
+//                } else {
+//                    completionHandler(result: nil, error: NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToFavoritesList"]))
+//                }
+//            }
+//        }
+//    }
 
 }

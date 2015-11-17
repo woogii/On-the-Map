@@ -61,7 +61,7 @@
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Hwd-QI-LRI" firstAttribute="trailing" secondItem="xgB-zQ-Axy" secondAttribute="trailingMargin" constant="8" id="1Jn-Ym-9ON"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="Hwd-QI-LRI" secondAttribute="bottom" constant="1" id="Ck4-VI-YuB"/>
@@ -78,7 +78,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Wwh-Bt-HFX" firstAttribute="top" secondItem="DHM-4X-0Bp" secondAttribute="topMargin" constant="3" id="Ie0-M8-XIH"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="Wwh-Bt-HFX" secondAttribute="trailing" constant="-8" id="TtU-3I-TMe"/>
@@ -215,7 +215,7 @@
 studying 
 today?</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -291,7 +291,7 @@ today?</string>
         <!--Map-->
         <scene sceneID="HHU-MY-Gb9">
             <objects>
-                <viewController id="VRO-tQ-PKS" sceneMemberID="viewController">
+                <viewController id="VRO-tQ-PKS" customClass="OntheMapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wWU-Yg-i1K"/>
                         <viewControllerLayoutGuide type="bottom" id="ReP-4X-xdt"/>
@@ -300,8 +300,8 @@ today?</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-FP-dmh">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-FP-dmh">
+                                <rect key="frame" x="-4" y="20" width="328" height="44"/>
                                 <items>
                                     <navigationItem title="On The Map" id="5ma-kx-gkt">
                                         <barButtonItem key="leftBarButtonItem" image="pin" id="Jv7-4r-ubO"/>
@@ -309,8 +309,8 @@ today?</string>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zal-70-bWu">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zal-70-bWu">
+                                <rect key="frame" x="-4" y="64" width="328" height="455"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -326,6 +326,9 @@ today?</string>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Qah-qN-jrt"/>
+                    <connections>
+                        <outlet property="mapView" destination="zal-70-bWu" id="koj-JL-FkU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eah-7D-lcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -334,7 +337,7 @@ today?</string>
         <!--Tab Bar Controller-->
         <scene sceneID="esk-6J-Vrd">
             <objects>
-                <tabBarController id="Lp1-Jp-mlb" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBarController" id="Lp1-Jp-mlb" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Ymy-lE-NUO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

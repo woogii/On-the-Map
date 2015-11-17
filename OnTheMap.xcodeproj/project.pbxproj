@@ -15,6 +15,7 @@
 		D22140B61BF8CC8400150D1D /* OnTheMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140B51BF8CC8400150D1D /* OnTheMapUITests.swift */; };
 		D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140C31BF8CD2D00150D1D /* LoginViewController.swift */; };
 		D22140C61BF9B00C00150D1D /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22140C51BF9B00C00150D1D /* UdacityClient.swift */; };
+		D294534F1BFAF29300292702 /* OntheMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294534E1BFAF29300292702 /* OntheMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		D22140B71BF8CC8400150D1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D22140C31BF8CD2D00150D1D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D22140C51BF9B00C00150D1D /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		D294534E1BFAF29300292702 /* OntheMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OntheMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				D22140A11BF8CC8400150D1D /* Info.plist */,
 				D22140C31BF8CD2D00150D1D /* LoginViewController.swift */,
 				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
+				D294534E1BFAF29300292702 /* OntheMapViewController.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */,
 				D22140961BF8CC8400150D1D /* AppDelegate.swift in Sources */,
+				D294534F1BFAF29300292702 /* OntheMapViewController.swift in Sources */,
 				D22140C61BF9B00C00150D1D /* UdacityClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +490,7 @@
 				D22140BC1BF8CC8400150D1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D22140BD1BF8CC8400150D1D /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +499,7 @@
 				D22140BF1BF8CC8400150D1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D22140C01BF8CC8400150D1D /* Build configuration list for PBXNativeTarget "OnTheMapUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +508,7 @@
 				D22140C21BF8CC8400150D1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
