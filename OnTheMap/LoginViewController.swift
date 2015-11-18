@@ -16,11 +16,19 @@ class LoginViewController : UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     
     var session: NSURLSession!
+    var tapRecognizer:UITapGestureRecognizer? = nil
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.view.addGestureRecognizer(tapRecognizer!)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.view.removeGestureRecognizer(tapRecognizer!)
+    }
+    
     
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
@@ -28,15 +36,29 @@ class LoginViewController : UIViewController {
 
         UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
             
-            if let err = error {
-                print(err)
-            } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
-                    
-                    self.presentViewController(controller, animated: true, completion: nil)
-                }
+            if error == nil {
+                self.completeLogin()
             }
+            else {
+                self.displayError(error)
+            }
+        }
+    }
+    
+    func completeLogin()  {
+        dispatch_async(dispatch_get_main_queue()) {
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
+            
+            self.presentViewController(controller, animated: true, completion: nil)
+        }
+
+    }
+
+    func displayError(errorString: String?) {
+        dispatch_async(dispatch_get_main_queue()) {
+            let alertView = UIAlertController(title:"Login Error", message:errorString, preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
         }
     }
     
@@ -47,6 +69,13 @@ class LoginViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         session = NSURLSession.sharedSession()
+        
+        tapRecognizer = UITapGestureRecognizer(target:self, action: "handleSingleTap:")
+        tapRecognizer?.numberOfTapsRequired = 1
+    }
+    
+    func handleSingleTap(recognizer : UITapGestureRecognizer ) {
+        self.view.endEditing(true)
     }
         
     func escapedParameters(parameters: [String : AnyObject]) -> String {
