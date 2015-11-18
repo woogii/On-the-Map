@@ -142,7 +142,7 @@
         <!--List-->
         <scene sceneID="meK-Vp-y18">
             <objects>
-                <viewController id="KaH-ti-gSb" sceneMemberID="viewController">
+                <viewController id="KaH-ti-gSb" customClass="StudentListViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Voc-dg-QdW"/>
                         <viewControllerLayoutGuide type="bottom" id="da5-8m-DOg"/>
@@ -166,6 +166,20 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eAa-yl-WMq">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentListViewCell" id="l22-za-Gha">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l22-za-Gha" id="IIl-Wq-5yo">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="KaH-ti-gSb" id="APV-Gi-wo4"/>
+                                    <outlet property="delegate" destination="KaH-ti-gSb" id="OdZ-PA-hmf"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -180,6 +194,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="list" id="v4B-Sl-4yd"/>
+                    <connections>
+                        <outlet property="studentsTableView" destination="eAa-yl-WMq" id="Xp1-yc-mJd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F3Q-N9-eLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -293,7 +310,7 @@ today?</string>
         <!--Map-->
         <scene sceneID="HHU-MY-Gb9">
             <objects>
-                <viewController id="VRO-tQ-PKS" customClass="OntheMapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VRO-tQ-PKS" customClass="StudentMapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wWU-Yg-i1K"/>
                         <viewControllerLayoutGuide type="bottom" id="ReP-4X-xdt"/>

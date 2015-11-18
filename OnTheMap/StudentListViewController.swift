@@ -10,37 +10,55 @@ import UIKit
 
 class StudentListViewController : UIViewController {
     
+    @IBOutlet weak var studentsTableView: UITableView!
+    
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
     }
     
-    
+    override func viewWillAppear(animated:Bool)
+    {
+        super.viewWillAppear(animated)
+        
+        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+            
+            if let studentInfo = studentInfo {
+                ParseClient.sharedInstance().studentInfo = studentInfo
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.studentsTableView.reloadData()
+                }
+            }
+            else {
+                print(errorString)
+            }
+        }
+        
+    }
+
 }
 
 
-extension StudentListViewController : UITableViewDelegate {
+extension StudentListViewController : UITableViewDelegate, UITableViewDataSource{
     
-//     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        
-//        /* Get cell type */
-//        let cellReuseIdentifier = "StudentListViewCell"
-//        let movie = [indexPath.row]
-//        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
-//        
-//        /* Set cell defaults */
-//        cell.textLabel!.text = movie.title
-//        cell.imageView!.image = UIImage(named: "Film")
-//        cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
-//        
-//
-//        
-//        return cell
-//     }
-//
-//    
-//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return ParseClient.sharedInstance().studentInfo.count
-//    }
+     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        /* Get cell type */
+        let cellReuseIdentifier = "StudentListViewCell"
+        let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
+        
+        /* Set cell defaults */
+        cell.textLabel!.text = "\(student.firstName)\(student.lastName)"
+        cell.imageView!.image = UIImage(named: "pin")
+        cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
+            
+        return cell
+     }
+
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return ParseClient.sharedInstance().studentInfo.count
+    }
 
     
 

@@ -32,17 +32,26 @@ class LoginViewController : UIViewController {
     
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
-        userNameTextField.text = "siwookhyun@gmail.com"
-
-        UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
+        if  userNameTextField.text != ""  && passwordTextField.text != ""  {
             
-            if error == nil {
-                self.completeLogin()
+            userNameTextField.text = "siwookhyun@gmail.com"
+
+            UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
+            
+                if error == nil {
+                    self.completeLogin()
+                }
+                else {
+                    self.displayError(error)
+                }
             }
-            else {
-                self.displayError(error)
-            }
+        } else {
+            let alertView = UIAlertController(title:"", message:"Empty Email or Password", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
+        
         }
+        
     }
     
     func completeLogin()  {
