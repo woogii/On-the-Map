@@ -18,6 +18,7 @@
 		D294534F1BFAF29300292702 /* OntheMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294534E1BFAF29300292702 /* OntheMapViewController.swift */; };
 		D29453511BFB537B00292702 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453501BFB537B00292702 /* ParseClient.swift */; };
 		D29453531BFC27C100292702 /* StudentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453521BFC27C100292702 /* StudentInfo.swift */; };
+		D29453551BFC783900292702 /* StudentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453541BFC783900292702 /* StudentListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		D294534E1BFAF29300292702 /* OntheMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OntheMapViewController.swift; sourceTree = "<group>"; };
 		D29453501BFB537B00292702 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		D29453521BFC27C100292702 /* StudentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInfo.swift; sourceTree = "<group>"; };
+		D29453541BFC783900292702 /* StudentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				D22140C31BF8CD2D00150D1D /* LoginViewController.swift */,
 				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
 				D294534E1BFAF29300292702 /* OntheMapViewController.swift */,
+				D29453541BFC783900292702 /* StudentListViewController.swift */,
 				D29453501BFB537B00292702 /* ParseClient.swift */,
 				D29453521BFC27C100292702 /* StudentInfo.swift */,
 			);
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D29453551BFC783900292702 /* StudentListViewController.swift in Sources */,
 				D29453531BFC27C100292702 /* StudentInfo.swift in Sources */,
 				D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */,
 				D29453511BFB537B00292702 /* ParseClient.swift in Sources */,

@@ -17,7 +17,7 @@ class OntheMapViewController : UIViewController {
     
     var locationManager = CLLocationManager()
     let regionRadius: CLLocationDistance = 1000.0 
-    var studentInfo = [StudentInfo]()
+   
     var annotations = [MKAnnotation]()
 
     
@@ -26,7 +26,6 @@ class OntheMapViewController : UIViewController {
         ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-                self.studentInfo = studentInfo
                 
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()

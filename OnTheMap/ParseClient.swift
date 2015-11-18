@@ -18,6 +18,8 @@ class ParseClient : NSObject {
     // let baseURLSecure :String  = "https://www.udacity.com/api/"
     var sessionID : String? = nil
     var userID: String? = nil
+    var studentInfo = [StudentInfo]()
+    
     
     let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
     let restApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
@@ -46,6 +48,7 @@ class ParseClient : NSObject {
                 if let results = JSONResult["results"] as? [[String:AnyObject]] {
 
                     let studentInfo = StudentInfo.studentInfoFromResults(results)
+                    self.studentInfo = studentInfo
                     completionHandler(result: studentInfo, errorString: nil)
                   }
                 else {
