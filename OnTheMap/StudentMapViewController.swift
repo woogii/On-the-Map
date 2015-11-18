@@ -1,5 +1,5 @@
 //
-//  OntheMapViewController.swift
+//  StudentMapViewController.swift
 //  OnTheMap
 //
 //  Created by Hyun on 2015. 11. 17..
@@ -60,6 +60,24 @@ class StudentMapViewController : UIViewController {
         mapView.delegate = self
     }
     
+    @IBAction func logOutInMapView(sender: AnyObject) {
+        
+        UdacityClient.sharedInstance().deleteSession() {  success , errorString in
+            
+            if success {
+                
+                let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("loginViewController")
+                self.presentViewController(loginViewController!, animated: true, completion: nil)
+                
+                
+            } else {
+                print(errorString)
+            }
+            
+        }
+        
+        
+    }
 }
 
 extension StudentMapViewController : MKMapViewDelegate {

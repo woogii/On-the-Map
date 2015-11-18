@@ -127,7 +127,6 @@ class UdacityClient : NSObject {
             
             if let err = error {
                 print(err)
-            
                 completionHandler(success: false, userID: nil, errorString: "The Internet connection appears to be offline")
             } else {
                 
@@ -142,6 +141,44 @@ class UdacityClient : NSObject {
                 }
             }
             
+        }
+    }
+    
+    func deleteSession( completionHandler:(success : Bool, errorString:String?)->Void ) {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+        request.HTTPMethod = "DELETE"
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in sharedCookieStorage.cookies! as [NSHTTPCookie] {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value , forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        
+        taskForPOSTMethod(request) {  JSONResult, error in
+            
+            if let err = error {
+                print(err)
+            } else {
+            
+                if let result = JSONResult["session"] as? NSDictionary {
+                
+                    if let userID = result["id"] as? String {
+                        print(userID)
+                        completionHandler( success: true, errorString: nil)
+                    }
+                
+                } else {
+                    completionHandler(success: false, errorString: "Error occured while logout")
+                }
+            
+            }
         }
     }
 

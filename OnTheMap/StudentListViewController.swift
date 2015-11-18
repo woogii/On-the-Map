@@ -35,6 +35,21 @@ class StudentListViewController : UIViewController {
         
     }
 
+    @IBAction func logoutInListView(sender: AnyObject) {
+        
+        UdacityClient.sharedInstance().deleteSession() {  success , errorString in
+            
+            if success {
+                
+                let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("loginViewController")
+                self.presentViewController(loginViewController!, animated: true, completion: nil)
+                
+                
+            } else {
+                print(errorString)
+            }
+        }
+    }
 }
 
 
