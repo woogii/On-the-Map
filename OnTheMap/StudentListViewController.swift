@@ -13,7 +13,9 @@ class StudentListViewController : UIViewController {
     @IBOutlet weak var studentsTableView: UITableView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(animated:Bool)
@@ -56,6 +58,7 @@ class StudentListViewController : UIViewController {
 extension StudentListViewController : UITableViewDelegate, UITableViewDataSource{
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     
         
         /* Get cell type */
         let cellReuseIdentifier = "StudentListViewCell"
@@ -64,13 +67,16 @@ extension StudentListViewController : UITableViewDelegate, UITableViewDataSource
         
         /* Set cell defaults */
         cell.textLabel!.text = "\(student.firstName)\(student.lastName)"
+        cell.detailTextLabel!.text = student.mediaURL
         cell.imageView!.image = UIImage(named: "pin")
         cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
-            
+           
         return cell
      }
 
-    
+    override func layoutSublayersOfLayer(layer: CALayer) {
+        
+    }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ParseClient.sharedInstance().studentInfo.count
     }

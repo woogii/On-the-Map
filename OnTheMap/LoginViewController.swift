@@ -55,20 +55,20 @@ class LoginViewController : UIViewController {
     }
     
     func completeLogin()  {
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
             
             self.presentViewController(controller, animated: true, completion: nil)
-        }
+        })
 
     }
 
     func displayError(errorString: String?) {
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), {
             let alertView = UIAlertController(title:"Login Error", message:errorString, preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
             self.presentViewController(alertView, animated: true, completion: nil)
-        }
+        })
     }
     
     @IBAction func signUpButtonTouch(sender: AnyObject) {

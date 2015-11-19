@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-class StudentMapViewController : UIViewController {
+class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
     
     @IBOutlet weak var mapView: MKMapView!
@@ -20,12 +20,14 @@ class StudentMapViewController : UIViewController {
    
     var annotations = [MKAnnotation]()
 
-    
-    func loadInitialData()
-    {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
+    
+                // var annotations = [MKAnnotation]()
                 
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
@@ -36,7 +38,10 @@ class StudentMapViewController : UIViewController {
                     self.annotations.append(annotation)
                 }
                 
-                self.mapView.addAnnotations(self.annotations)
+                // Adding map annotation in the main thread 
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.mapView.addAnnotations(self.annotations)
+                })
             }
             else {
                 print(errorString)
@@ -44,7 +49,7 @@ class StudentMapViewController : UIViewController {
             
             
         }
-        
+
     }
     
     override func viewDidLoad() {
@@ -54,10 +59,11 @@ class StudentMapViewController : UIViewController {
         
         _ = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, regionRadius*2.0, regionRadius*2.0)
         
-        loadInitialData()
+        //loadInitialData()
         // if studentInfo is declared as studentInfo, it results in error
         //mapView.addAnnotations(studentInfo)
-        mapView.delegate = self
+        
+        //mapView.delegate = self
     }
     
     @IBAction func logOutInMapView(sender: AnyObject) {
@@ -75,25 +81,21 @@ class StudentMapViewController : UIViewController {
             }
             
         }
-        
-        
     }
-}
-
-extension StudentMapViewController : MKMapViewDelegate {
     
-
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-    
+        
         let identifier = "pin"
-        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as! MKPinAnnotationView?
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
         
         if pinView == nil {
             
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = true
-            pinView!.calloutOffset = CGPoint(x: -5, y :-5)
-            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+            //pinView!.pinColor = .Red
+            //pinView!.calloutOffset = CGPoint(x: -5, y :-5)
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
             
         } else {
             pinView!.annotation = annotation
@@ -102,7 +104,7 @@ extension StudentMapViewController : MKMapViewDelegate {
         return pinView
     }
     
-    // This delegate method is implemented to respond to taps. It opens the system browser 
+    // This delegate method is implemented to respond to taps. It opens the system browser
     // to the URL URL specified in the annotationViews subtitle property.
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control:UIControl) {
         if control == view.rightCalloutAccessoryView {
@@ -112,5 +114,5 @@ extension StudentMapViewController : MKMapViewDelegate {
             }
         }
     }
-    
+
 }
