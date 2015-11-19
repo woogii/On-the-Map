@@ -38,7 +38,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                     self.annotations.append(annotation)
                 }
                 
-                // Adding map annotation in the main thread 
+                // Adding map annotation in the main thread
                 dispatch_async(dispatch_get_main_queue(), {
                     self.mapView.addAnnotations(self.annotations)
                 })
@@ -47,9 +47,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                 print(errorString)
             }
             
-            
         }
-
     }
     
     override func viewDidLoad() {
@@ -75,13 +73,17 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                 let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("loginViewController")
                 self.presentViewController(loginViewController!, animated: true, completion: nil)
                 
-                
             } else {
                 print(errorString)
             }
             
         }
     }
+    
+    @IBAction func pinButtonClicked(sender: AnyObject) {
+        self.performSegueWithIdentifier("moveFromMapView", sender: nil)
+    }
+    
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         

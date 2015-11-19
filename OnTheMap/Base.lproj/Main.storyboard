@@ -161,7 +161,11 @@
                                         </barButtonItem>
                                         <rightBarButtonItems>
                                             <barButtonItem systemItem="refresh" id="RA0-3t-DgV"/>
-                                            <barButtonItem image="pin" id="Ifl-1e-Y0U"/>
+                                            <barButtonItem image="pin" id="Ifl-1e-Y0U">
+                                                <connections>
+                                                    <action selector="pinButtonClicked:" destination="KaH-ti-gSb" id="Brd-3a-Ibc"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -215,16 +219,17 @@
                     <tabBarItem key="tabBarItem" title="List" image="list" id="v4B-Sl-4yd"/>
                     <connections>
                         <outlet property="studentsTableView" destination="eAa-yl-WMq" id="Xp1-yc-mJd"/>
+                        <segue destination="t4F-H2-6M1" kind="presentation" identifier="moveFromListView" id="sia-kp-uYN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F3Q-N9-eLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="911" y="519"/>
+            <point key="canvasLocation" x="700" y="576"/>
         </scene>
-        <!--View Controller-->
+        <!--Information Posting View Controller-->
         <scene sceneID="02d-0Z-B8O">
             <objects>
-                <viewController id="t4F-H2-6M1" sceneMemberID="viewController">
+                <viewController id="t4F-H2-6M1" customClass="InformationPostingViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="B41-Hc-t6i"/>
                         <viewControllerLayoutGuide type="bottom" id="Gtn-xn-mZs"/>
@@ -256,13 +261,24 @@ today?</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter a Link to Share Here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fQf-q8-USk">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="141"/>
+                                        <color key="backgroundColor" red="0.40352670680000002" green="0.58785312489999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.8976089015151516" green="0.8976089015151516" blue="0.8976089015151516" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="V6v-P6-1FJ" firstAttribute="leading" secondItem="Uf8-PZ-wAR" secondAttribute="leading" constant="83" id="23v-X3-dZa"/>
+                                    <constraint firstItem="fQf-q8-USk" firstAttribute="leading" secondItem="Uf8-PZ-wAR" secondAttribute="leadingMargin" constant="-8" id="ER0-B5-xZE"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="fQf-q8-USk" secondAttribute="bottom" constant="-8" id="GyD-JS-rz9"/>
                                     <constraint firstItem="V6v-P6-1FJ" firstAttribute="centerX" secondItem="Uf8-PZ-wAR" secondAttribute="centerX" id="Hdb-0d-iXK"/>
+                                    <constraint firstItem="fQf-q8-USk" firstAttribute="top" secondItem="Uf8-PZ-wAR" secondAttribute="topMargin" constant="-8" id="VNX-fC-jSd"/>
                                     <constraint firstItem="V6v-P6-1FJ" firstAttribute="top" secondItem="Uf8-PZ-wAR" secondAttribute="top" constant="31" id="ax8-Np-Sar"/>
                                     <constraint firstAttribute="bottom" secondItem="V6v-P6-1FJ" secondAttribute="bottom" constant="34" id="m4Q-MM-nIJ"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="fQf-q8-USk" secondAttribute="trailing" constant="-8" id="vRs-UA-rtd"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TuA-gu-NzL">
@@ -272,16 +288,23 @@ today?</string>
                                         <rect key="frame" x="45" y="46" width="231" height="141"/>
                                         <color key="backgroundColor" red="0.40352670684766301" green="0.58785312491473973" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Cjy-ue-ywk">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="364"/>
+                                    </mapView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.40352670680000002" green="0.58785312489999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="lv2-zF-IPF" firstAttribute="top" secondItem="TuA-gu-NzL" secondAttribute="top" constant="46" id="2sR-WC-Frp"/>
                                     <constraint firstItem="lv2-zF-IPF" firstAttribute="leading" secondItem="TuA-gu-NzL" secondAttribute="leading" constant="45" id="47p-fb-qUM"/>
+                                    <constraint firstItem="Cjy-ue-ywk" firstAttribute="leading" secondItem="TuA-gu-NzL" secondAttribute="leadingMargin" constant="-8" id="Bdt-Lm-tZM"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Cjy-ue-ywk" secondAttribute="trailing" constant="-8" id="EGV-1Y-I9n"/>
+                                    <constraint firstItem="Cjy-ue-ywk" firstAttribute="top" secondItem="TuA-gu-NzL" secondAttribute="topMargin" constant="-8" id="KF9-Xw-1Lh"/>
                                     <constraint firstItem="lv2-zF-IPF" firstAttribute="centerX" secondItem="TuA-gu-NzL" secondAttribute="centerX" id="UpM-Jg-B2U"/>
                                     <constraint firstAttribute="bottom" secondItem="lv2-zF-IPF" secondAttribute="bottom" constant="68" id="Zrb-pS-oWo"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="Cjy-ue-ywk" secondAttribute="bottom" constant="-117" id="q3h-8L-ROb"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ouu-Kq-uwh">
@@ -292,13 +315,20 @@ today?</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Find on the Map"/>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7r-lU-wmn">
+                                        <rect key="frame" x="132" y="39" width="48" height="30"/>
+                                        <state key="normal" title="Submit"/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89760890149999994" green="0.89760890149999994" blue="0.89760890149999994" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="pZL-rd-gGE" secondAttribute="trailing" constant="98" id="0kL-Tg-fxR"/>
+                                    <constraint firstItem="L7r-lU-wmn" firstAttribute="top" secondItem="ouu-Kq-uwh" secondAttribute="topMargin" constant="31" id="D8I-OB-SZq"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="leading" secondItem="ouu-Kq-uwh" secondAttribute="leading" constant="88" id="avu-fj-EqN"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="centerY" secondItem="ouu-Kq-uwh" secondAttribute="centerY" id="bWU-AC-jwY"/>
+                                    <constraint firstItem="L7r-lU-wmn" firstAttribute="leading" secondItem="ouu-Kq-uwh" secondAttribute="leadingMargin" constant="124" id="cZB-5T-wYR"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="top" secondItem="ouu-Kq-uwh" secondAttribute="top" constant="39" id="iaL-3R-rCi"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="L7r-lU-wmn" secondAttribute="trailing" constant="132" id="wAM-xS-cMZ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -321,6 +351,14 @@ today?</string>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="findLocationButton" destination="pZL-rd-gGE" id="MIl-ct-jIL"/>
+                        <outlet property="inputLinkTextView" destination="fQf-q8-USk" id="Xfy-bZ-W0n"/>
+                        <outlet property="inputLocationTextView" destination="lv2-zF-IPF" id="Jdp-Dd-4NZ"/>
+                        <outlet property="mapView" destination="Cjy-ue-ywk" id="jHZ-tU-sMk"/>
+                        <outlet property="submitButton" destination="L7r-lU-wmn" id="nyS-RH-Pjp"/>
+                        <outlet property="topLabel" destination="V6v-P6-1FJ" id="Yx0-EF-o99"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vVt-xV-dTt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -349,7 +387,11 @@ today?</string>
                                         </barButtonItem>
                                         <rightBarButtonItems>
                                             <barButtonItem systemItem="refresh" id="Tje-rd-1Ge"/>
-                                            <barButtonItem image="pin" id="Jv7-4r-ubO"/>
+                                            <barButtonItem image="pin" id="Jv7-4r-ubO">
+                                                <connections>
+                                                    <action selector="pinButtonClicked:" destination="VRO-tQ-PKS" id="fMp-cw-aGo"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -373,6 +415,7 @@ today?</string>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Qah-qN-jrt"/>
                     <connections>
                         <outlet property="mapView" destination="zal-70-bWu" id="koj-JL-FkU"/>
+                        <segue destination="t4F-H2-6M1" kind="presentation" identifier="moveFromMapView" id="i7L-GZ-eVx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eah-7D-lcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -406,4 +449,7 @@ today?</string>
         <image name="pin" width="32" height="32"/>
         <image name="udacitylogo" width="256" height="256"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="sia-kp-uYN"/>
+    </inferredMetricsTieBreakers>
 </document>

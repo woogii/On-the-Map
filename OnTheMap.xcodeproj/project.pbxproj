@@ -19,6 +19,7 @@
 		D29453511BFB537B00292702 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453501BFB537B00292702 /* ParseClient.swift */; };
 		D29453531BFC27C100292702 /* StudentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453521BFC27C100292702 /* StudentInfo.swift */; };
 		D29453551BFC783900292702 /* StudentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453541BFC783900292702 /* StudentListViewController.swift */; };
+		D2A81A901BFD9A43000C9884 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A81A8F1BFD9A43000C9884 /* InformationPostingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		D29453501BFB537B00292702 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		D29453521BFC27C100292702 /* StudentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInfo.swift; sourceTree = "<group>"; };
 		D29453541BFC783900292702 /* StudentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentListViewController.swift; sourceTree = "<group>"; };
+		D2A81A8F1BFD9A43000C9884 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 			children = (
 				D22140951BF8CC8400150D1D /* AppDelegate.swift */,
 				D22140991BF8CC8400150D1D /* Main.storyboard */,
+				D2A81A8F1BFD9A43000C9884 /* InformationPostingViewController.swift */,
 				D221409C1BF8CC8400150D1D /* Assets.xcassets */,
 				D221409E1BF8CC8400150D1D /* LaunchScreen.storyboard */,
 				D22140A11BF8CC8400150D1D /* Info.plist */,
@@ -273,6 +276,7 @@
 			files = (
 				D29453551BFC783900292702 /* StudentListViewController.swift in Sources */,
 				D29453531BFC27C100292702 /* StudentInfo.swift in Sources */,
+				D2A81A901BFD9A43000C9884 /* InformationPostingViewController.swift in Sources */,
 				D22140C41BF8CD2D00150D1D /* LoginViewController.swift in Sources */,
 				D29453511BFB537B00292702 /* ParseClient.swift in Sources */,
 				D22140961BF8CC8400150D1D /* AppDelegate.swift in Sources */,

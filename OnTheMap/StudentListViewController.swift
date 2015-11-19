@@ -52,6 +52,14 @@ class StudentListViewController : UIViewController {
             }
         }
     }
+    
+    
+ 
+    @IBAction func pinButtonClicked(sender: AnyObject) {
+        self.performSegueWithIdentifier("moveFromListView", sender: nil)
+    }
+    
+    
 }
 
 
@@ -74,9 +82,6 @@ extension StudentListViewController : UITableViewDelegate, UITableViewDataSource
         return cell
      }
 
-    override func layoutSublayersOfLayer(layer: CALayer) {
-        
-    }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ParseClient.sharedInstance().studentInfo.count
     }
