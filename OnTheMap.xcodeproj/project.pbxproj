@@ -110,17 +110,17 @@
 			isa = PBXGroup;
 			children = (
 				D22140951BF8CC8400150D1D /* AppDelegate.swift */,
-				D22140991BF8CC8400150D1D /* Main.storyboard */,
-				D2A81A8F1BFD9A43000C9884 /* InformationPostingViewController.swift */,
-				D221409C1BF8CC8400150D1D /* Assets.xcassets */,
-				D221409E1BF8CC8400150D1D /* LaunchScreen.storyboard */,
-				D22140A11BF8CC8400150D1D /* Info.plist */,
-				D22140C31BF8CD2D00150D1D /* LoginViewController.swift */,
+				D29453521BFC27C100292702 /* StudentInfo.swift */,
 				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
+				D29453501BFB537B00292702 /* ParseClient.swift */,
+				D2A81A8F1BFD9A43000C9884 /* InformationPostingViewController.swift */,
+				D22140C31BF8CD2D00150D1D /* LoginViewController.swift */,
 				D294534E1BFAF29300292702 /* StudentMapViewController.swift */,
 				D29453541BFC783900292702 /* StudentListViewController.swift */,
-				D29453501BFB537B00292702 /* ParseClient.swift */,
-				D29453521BFC27C100292702 /* StudentInfo.swift */,
+				D22140991BF8CC8400150D1D /* Main.storyboard */,
+				D22140A11BF8CC8400150D1D /* Info.plist */,
+				D221409C1BF8CC8400150D1D /* Assets.xcassets */,
+				D221409E1BF8CC8400150D1D /* LaunchScreen.storyboard */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";

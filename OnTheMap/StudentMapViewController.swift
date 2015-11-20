@@ -28,7 +28,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             if let studentInfo = studentInfo {
     
                 // var annotations = [MKAnnotation]()
-                
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = student.coordinate
@@ -46,16 +45,14 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             else {
                 print(errorString)
             }
-            
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let initialLocation = CLLocation(latitude:  37.773972, longitude: -122.431297)
-        
-        _ = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, regionRadius*2.0, regionRadius*2.0)
+        //let initialLocation = CLLocation(latitude:  37.773972, longitude: -122.431297)
+        //_ = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, regionRadius*2.0, regionRadius*2.0)
         
         //loadInitialData()
         // if studentInfo is declared as studentInfo, it results in error
@@ -69,7 +66,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
         UdacityClient.sharedInstance().deleteSession() {  success , errorString in
             
             if success {
-                
                 let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("loginViewController")
                 self.presentViewController(loginViewController!, animated: true, completion: nil)
                 
@@ -81,6 +77,27 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func pinButtonClicked(sender: AnyObject) {
+        
+        let currentUserName = UdacityClient.sharedInstance().userName
+        
+        if currentUserName != nil {
+            
+            let alertView = UIAlertController(title: nil, message: "User \"\(currentUserName!)\" Has Already Posted a Student Location. Would You Like to Overwrite Their Location?", preferredStyle: .Alert)
+            
+            let OverWriteAction = UIAlertAction(title: "Overwrite", style: .Default , handler:overWriteStudentInfo)
+            let CancelAction    = UIAlertAction(title: "Cancel", style: .Default, handler:nil)
+            
+            alertView.addAction(OverWriteAction)
+            alertView.addAction(CancelAction)
+                
+            presentViewController(alertView, animated: true, completion: nil)
+            
+        } else {
+            self.performSegueWithIdentifier("moveFromMapView", sender: nil)
+        }
+    }
+    
+    func overWriteStudentInfo(alertAction: UIAlertAction!) -> Void {
         self.performSegueWithIdentifier("moveFromMapView", sender: nil)
     }
     
@@ -88,7 +105,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         let identifier = "pin"
-        
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
         
         if pinView == nil {

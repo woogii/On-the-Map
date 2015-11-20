@@ -9,7 +9,7 @@
 import UIKit
 
 
-class LoginViewController : UIViewController {
+class LoginViewController : UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loginBackgroundImage: UIImageView!
     @IBOutlet weak var userNameTextField: UITextField!
@@ -29,15 +29,23 @@ class LoginViewController : UIViewController {
         self.view.removeGestureRecognizer(tapRecognizer!)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        session = NSURLSession.sharedSession()
+        
+        tapRecognizer = UITapGestureRecognizer(target:self, action: "handleSingleTap:")
+        tapRecognizer?.numberOfTapsRequired = 1
+        
+        userNameTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+
+    
     
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
         if  userNameTextField.text != ""  && passwordTextField.text != ""  {
-            
-            userNameTextField.text = "siwookhyun@gmail.com"
-
             UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
-            
                 if error == nil {
                     self.completeLogin()
                 }
@@ -75,16 +83,14 @@ class LoginViewController : UIViewController {
         UIApplication.sharedApplication().openURL(NSURL(string: "https://www.udacity.com/account/auth#!/signin")!)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        session = NSURLSession.sharedSession()
-        
-        tapRecognizer = UITapGestureRecognizer(target:self, action: "handleSingleTap:")
-        tapRecognizer?.numberOfTapsRequired = 1
-    }
     
     func handleSingleTap(recognizer : UITapGestureRecognizer ) {
         self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
         
     func escapedParameters(parameters: [String : AnyObject]) -> String {

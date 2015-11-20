@@ -245,7 +245,11 @@
                                 </constraints>
                                 <items>
                                     <navigationItem id="oSk-cF-yNV">
-                                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="1jT-si-iZ4"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="1jT-si-iZ4">
+                                            <connections>
+                                                <action selector="cancelButtonClicked:" destination="t4F-H2-6M1" id="STq-ng-rRA"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -310,14 +314,21 @@ today?</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ouu-Kq-uwh">
                                 <rect key="frame" x="0.0" y="460" width="320" height="108"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7r-lU-wmn">
+                                        <rect key="frame" x="117" y="39" width="73" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Submit"/>
+                                        <connections>
+                                            <action selector="submitButtonClicked:" destination="t4F-H2-6M1" eventType="touchUpInside" id="vCw-N9-o2n"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pZL-rd-gGE">
                                         <rect key="frame" x="88" y="39" width="134" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Find on the Map"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7r-lU-wmn">
-                                        <rect key="frame" x="132" y="39" width="48" height="30"/>
-                                        <state key="normal" title="Submit"/>
+                                        <connections>
+                                            <action selector="findButtonClicked:" destination="t4F-H2-6M1" eventType="touchUpInside" id="10M-hc-FBx"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89760890149999994" green="0.89760890149999994" blue="0.89760890149999994" alpha="1" colorSpace="calibratedRGB"/>
@@ -326,9 +337,9 @@ today?</string>
                                     <constraint firstItem="L7r-lU-wmn" firstAttribute="top" secondItem="ouu-Kq-uwh" secondAttribute="topMargin" constant="31" id="D8I-OB-SZq"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="leading" secondItem="ouu-Kq-uwh" secondAttribute="leading" constant="88" id="avu-fj-EqN"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="centerY" secondItem="ouu-Kq-uwh" secondAttribute="centerY" id="bWU-AC-jwY"/>
-                                    <constraint firstItem="L7r-lU-wmn" firstAttribute="leading" secondItem="ouu-Kq-uwh" secondAttribute="leadingMargin" constant="124" id="cZB-5T-wYR"/>
+                                    <constraint firstItem="L7r-lU-wmn" firstAttribute="leading" secondItem="ouu-Kq-uwh" secondAttribute="leadingMargin" constant="109" id="cZB-5T-wYR"/>
                                     <constraint firstItem="pZL-rd-gGE" firstAttribute="top" secondItem="ouu-Kq-uwh" secondAttribute="top" constant="39" id="iaL-3R-rCi"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="L7r-lU-wmn" secondAttribute="trailing" constant="132" id="wAM-xS-cMZ"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="L7r-lU-wmn" secondAttribute="trailing" constant="122" id="wAM-xS-cMZ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -352,6 +363,7 @@ today?</string>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="bottomView" destination="ouu-Kq-uwh" id="vaJ-Zw-ux7"/>
                         <outlet property="findLocationButton" destination="pZL-rd-gGE" id="MIl-ct-jIL"/>
                         <outlet property="inputLinkTextView" destination="fQf-q8-USk" id="Xfy-bZ-W0n"/>
                         <outlet property="inputLocationTextView" destination="lv2-zF-IPF" id="Jdp-Dd-4NZ"/>
