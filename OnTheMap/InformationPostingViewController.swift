@@ -26,6 +26,7 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
     var tapRecognizer:UITapGestureRecognizer? = nil
     var coordinates: CLLocationCoordinate2D? = nil
     
+    
     let regionRadius:CLLocationDistance = 1000.0
 
     override func viewWillAppear(animated: Bool) {
@@ -99,8 +100,15 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             
-            if((error) != nil){
+            if( error != nil ){
+                
                 print("Geocode failed with error: \(error!.localizedDescription)")
+                
+                let alertView = UIAlertController(title:"", message:"Couldn't find the location. Please try again.", preferredStyle: .Alert)
+                alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                self.presentViewController(alertView, animated: true, completion: nil)
+                return
+
             } else if placemarks!.count > 0 {
                 let placemark = placemarks![0] as CLPlacemark
                 let location = placemark.location
@@ -112,7 +120,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
     }
     
     func showMap() {
-        print("in showmap")
+      
         inputLinkTextView.hidden = false
         mapView.hidden = false
         submitButton.hidden = false
@@ -150,15 +158,37 @@ extension InformationPostingViewController : MKMapViewDelegate {
         return pinView
     }
 
-    
+
     
     @IBAction func submitButtonClicked(sender: AnyObject) {
         
+        if inputLinkTextView.text == nil {
+            let alertView = UIAlertController(title:"", message:"Please enter a link.", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
+            return
+        }
+
+        let latitude:String = "\(self.coordinates!.latitude)"
+        let longitude:String = "\(self.coordinates!.longitude)"
         
-        
+        ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+                success, errorString in
+
+            if errorString != nil {
+                dispatch_async(dispatch_get_main_queue(), {
+                
+                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
+                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                })
+            } else {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+
+            
+        }
+    
     }
-    
-    
-    
     
 }

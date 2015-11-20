@@ -78,7 +78,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
     @IBAction func pinButtonClicked(sender: AnyObject) {
         
-        let currentUserName = UdacityClient.sharedInstance().userName
+        let currentUserName = UdacityClient.sharedInstance().fullName
         
         if currentUserName != nil {
             

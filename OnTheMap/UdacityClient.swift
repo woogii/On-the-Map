@@ -15,7 +15,9 @@ class UdacityClient : NSObject {
     let baseURLSecure :String = "https://www.udacity.com/api/"
     var sessionID : String? = nil
     var userID: String? = nil
-    var userName: String? = nil
+    var lastName: String? = nil
+    var firstName: String? = nil
+    var fullName: String?
     
     override init() {
         session = NSURLSession.sharedSession()
@@ -57,9 +59,10 @@ class UdacityClient : NSObject {
                 if let result = JSONResult.valueForKey("user") as? NSDictionary    {
                 
                     if let last_name = result.valueForKey("last_name") as? String {
-                        
+                        self.lastName = last_name
                         if let first_name = result.valueForKey("first_name") as? String{
-                            self.userName = "\(first_name) \(last_name)"
+                            self.firstName = first_name
+                            self.fullName = "\(self.firstName!)\(self.lastName!)"
                             completionHandler( success: true, errorString:nil)
                         }
                     }
