@@ -25,19 +25,19 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
     
     var tapRecognizer:UITapGestureRecognizer? = nil
     var coordinates: CLLocationCoordinate2D? = nil
-    
-    
+    var activityIndicator: UIActivityIndicatorView!
+        
     let regionRadius:CLLocationDistance = 1000.0
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.addGestureRecognizer(tapRecognizer!)
+        view.addGestureRecognizer(tapRecognizer!)
         
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.view.removeGestureRecognizer(tapRecognizer!)
+        view.removeGestureRecognizer(tapRecognizer!)
     }
     
     override func viewDidLoad() {
@@ -54,10 +54,18 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
         tapRecognizer = UITapGestureRecognizer(target:self, action: "handleSingleTap:")
         tapRecognizer?.numberOfTapsRequired = 1
         
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50)) as UIActivityIndicatorView
+        activityIndicator.center = view.center
+        activityIndicator.layer.cornerRadius = 5
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        activityIndicator.activityIndicatorViewStyle = .White
+        view.addSubview(activityIndicator!)
+        
     }
     
     func handleSingleTap(recognizer : UITapGestureRecognizer ) {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
     
     //  This method gets called whenever the user types a new character or deletes an existing character
@@ -83,7 +91,7 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
     }
     
     @IBAction func cancelButtonClicked(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -91,15 +99,15 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
 
 extension InformationPostingViewController : MKMapViewDelegate {
     
-    
     @IBAction func findButtonClicked(sender: AnyObject) {
         
         let address = inputLocationTextView.text
-        print(address)
         let geocoder = CLGeocoder()
         
+        self.activityIndicator!.startAnimating()
+        
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
-            
+           
             if( error != nil ){
                 
                 print("Geocode failed with error: \(error!.localizedDescription)")
@@ -136,6 +144,8 @@ extension InformationPostingViewController : MKMapViewDelegate {
         let annotation = MKPointAnnotation()
         annotation.coordinate = self.coordinates!
         self.mapView.addAnnotation(annotation)
+        
+        activityIndicator!.stopAnimating()
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -144,11 +154,8 @@ extension InformationPostingViewController : MKMapViewDelegate {
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
         
         if pinView == nil {
-            
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = true
-            //pinView!.pinColor = .Red
-            //pinView!.calloutOffset = CGPoint(x: -5, y :-5)
             pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
             
         } else {
@@ -174,7 +181,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
         ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
                 success, errorString in
-
+            
             if errorString != nil {
                 dispatch_async(dispatch_get_main_queue(), {
                 

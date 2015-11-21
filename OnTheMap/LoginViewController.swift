@@ -17,6 +17,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     
     var session: NSURLSession!
     var tapRecognizer:UITapGestureRecognizer? = nil
+    var activityIndicator: UIActivityIndicatorView? = nil
     
     
     override func viewWillAppear(animated: Bool) {
@@ -36,6 +37,12 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         tapRecognizer = UITapGestureRecognizer(target:self, action: "handleSingleTap:")
         tapRecognizer?.numberOfTapsRequired = 1
         
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50)) as UIActivityIndicatorView
+        activityIndicator!.center = view.center
+        activityIndicator?.hidesWhenStopped = true
+        activityIndicator?.activityIndicatorViewStyle = .White
+        view.addSubview(activityIndicator!)
+        
         userNameTextField.delegate = self
         passwordTextField.delegate = self
     }
@@ -43,6 +50,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     
     
     @IBAction func loginButtonTouch(sender: AnyObject) {
+        
+        activityIndicator!.startAnimating()
         
         if  userNameTextField.text != ""  && passwordTextField.text != ""  {
             UdacityClient.sharedInstance().processAuthentication(userNameTextField.text!, password: passwordTextField.text!)  {  (result, error) in
@@ -64,6 +73,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     
     func completeLogin()  {
         dispatch_async(dispatch_get_main_queue(), {
+            
+            self.activityIndicator!.stopAnimating()
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
             
             self.presentViewController(controller, animated: true, completion: nil)

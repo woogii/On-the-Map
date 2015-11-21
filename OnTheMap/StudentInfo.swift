@@ -19,22 +19,16 @@ class StudentInfo : NSObject, MKAnnotation {
     let firstName : String
 
     init(dictionary: [String:AnyObject]){
-    
         lastName = dictionary["lastName"] as! String
         firstName  = dictionary["firstName"] as! String
         let latitude = dictionary["latitude"] as! Double
         let longitude = dictionary["longitude"] as! Double
         mediaURL  = dictionary["mediaURL"] as! String
-        
         title = lastName + firstName
         coordinate = CLLocationCoordinate2D(latitude : latitude, longitude: longitude )
         
         super.init()
     }
-    
-//    var subtitle : String? {
-//        return linkURL
-//    }
     
     static func studentInfoFromResults(results:[[String: AnyObject]])->[StudentInfo] {
         var studentInfo = [StudentInfo]()

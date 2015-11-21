@@ -150,6 +150,12 @@ class ParseClient : NSObject {
                 print(err)
                 completionHandler(success: false, errorString: "Fail to send a link. Please try again.")
             } else {
+                print(JSONResult)
+                
+                if let createdAt = JSONResult["createdAt"] {
+                    print(createdAt)
+                }
+                print("success")
                 completionHandler(success: true, errorString: nil)
             }
         }
@@ -185,10 +191,9 @@ class ParseClient : NSObject {
                 print("No data was returned by the request!")
                 return
             }
-            
-            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+        
             /* 5/6. Parse the data and use the data (happens in completion handler) */
-            ParseClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
+            ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
         
         /* 7. Start the request */
@@ -208,27 +213,6 @@ class ParseClient : NSObject {
         }
         
         completionHandler(result: parsedResult, error: nil)
-    }
-    
-    
-    class func escapedParameters(parameters: [String : AnyObject]) -> String {
-        
-        var urlVars = [String]()
-        
-        for (key, value) in parameters {
-            
-            /* Make sure that it is a string value */
-            let stringValue = "\(value)"
-            
-            /* Escape it */
-            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-            
-            /* Append it */
-            urlVars += [key + "=" + "\(escapedValue!)"]
-            
-        }
-        
-        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
     class func sharedInstance()->ParseClient {

@@ -14,15 +14,22 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     var locationManager = CLLocationManager()
-    let regionRadius: CLLocationDistance = 1000.0 
+    let regionRadius: CLLocationDistance = 1000.0
+    var activityIndicator: UIActivityIndicatorView? = nil
+
    
     var annotations = [MKAnnotation]()
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        dispatch_async(dispatch_get_main_queue(), {
+            self.activityIndicator!.startAnimating()
+        })
+
         ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
@@ -39,6 +46,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                 
                 // Adding map annotation in the main thread
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator!.stopAnimating()
                     self.mapView.addAnnotations(self.annotations)
                 })
             }
@@ -51,30 +59,69 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //let initialLocation = CLLocation(latitude:  37.773972, longitude: -122.431297)
-        //_ = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, regionRadius*2.0, regionRadius*2.0)
-        
-        //loadInitialData()
-        // if studentInfo is declared as studentInfo, it results in error
-        //mapView.addAnnotations(studentInfo)
-        
-        //mapView.delegate = self
+        activityIndicator = UIActivityIndicatorView.init(activityIndicatorStyle: .White)        
+        //var appFrame = UIScreen.mainScreen().bounds
+        //appFrame.origin.y +=  navigationBar.frame.size.height
+        //appFrame.size.height -= navigationBar.frame.size.height;
+        activityIndicator!.frame = CGRectMake(0,0,50,50)
+        activityIndicator!.layer.cornerRadius = 5
+        activityIndicator!.center = view.center
+        activityIndicator!.hidesWhenStopped = true
+        activityIndicator!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        view.addSubview(activityIndicator!)
     }
     
-    @IBAction func logOutInMapView(sender: AnyObject) {
+    @IBAction func logoutButtonClicked(sender: AnyObject) {
         
         UdacityClient.sharedInstance().deleteSession() {  success , errorString in
             
             if success {
-                let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("loginViewController")
-                self.presentViewController(loginViewController!, animated: true, completion: nil)
-                
+                // If implementing 'dismissViewControllerAnimated' function without dispatch_async block, an error occurs with the following message
+                // 'This application is modifying the autolayout engine from a background thread, which can lead to engine corruption and weird crashes.  This will cause an exception in a future release.'
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
             } else {
                 print(errorString)
             }
             
         }
     }
+    
+    @IBAction func refreshButtonClicked(sender: UIBarButtonItem) {
+        print("test")
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.activityIndicator!.startAnimating()
+        })
+        
+        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+            
+            if let studentInfo = studentInfo {
+                
+                // var annotations = [MKAnnotation]()
+                for student in studentInfo {
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = student.coordinate
+                    annotation.title = "\(student.firstName)\(student.lastName)"
+                    annotation.subtitle = student.mediaURL
+                    
+                    self.annotations.append(annotation)
+                }
+                
+                // Adding map annotation in the main thread
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator!.stopAnimating()
+                    self.mapView.addAnnotations(self.annotations)
+                })
+            }
+            else {
+                print(errorString)
+            }
+        }
+        
+    }
+    
     
     @IBAction func pinButtonClicked(sender: AnyObject) {
         
@@ -111,8 +158,8 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = true
-            //pinView!.pinColor = .Red
-            //pinView!.calloutOffset = CGPoint(x: -5, y :-5)
+            pinView!.pinTintColor = UIColor.redColor()
+            pinView!.calloutOffset = CGPoint(x: -5, y :-5)
             pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
             
         } else {

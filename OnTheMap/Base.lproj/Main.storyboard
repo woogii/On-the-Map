@@ -156,11 +156,15 @@
                                     <navigationItem title="On The Map" id="7rH-3y-fIs">
                                         <barButtonItem key="leftBarButtonItem" title="Logout" id="kdA-gx-IKS">
                                             <connections>
-                                                <action selector="logoutInListView:" destination="KaH-ti-gSb" id="swZ-Tm-Dd6"/>
+                                                <action selector="logoutButtonClicked:" destination="KaH-ti-gSb" id="vMX-ok-MjB"/>
                                             </connections>
                                         </barButtonItem>
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="refresh" id="RA0-3t-DgV"/>
+                                            <barButtonItem systemItem="refresh" id="RA0-3t-DgV">
+                                                <connections>
+                                                    <action selector="refreshButtonClicked:" destination="KaH-ti-gSb" id="Yw5-zR-Esn"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem image="pin" id="Ifl-1e-Y0U">
                                                 <connections>
                                                     <action selector="pinButtonClicked:" destination="KaH-ti-gSb" id="Brd-3a-Ibc"/>
@@ -388,29 +392,36 @@ today?</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zal-70-bWu">
+                                <rect key="frame" x="0.0" y="64" width="332" height="455"/>
+                                <connections>
+                                    <outlet property="delegate" destination="VRO-tQ-PKS" id="4fT-OJ-Uql"/>
+                                </connections>
+                            </mapView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-FP-dmh">
                                 <rect key="frame" x="-4" y="20" width="328" height="44"/>
                                 <items>
                                     <navigationItem title="On The Map" id="5ma-kx-gkt">
                                         <barButtonItem key="leftBarButtonItem" title="Logout" id="nwS-Gf-Hue">
                                             <connections>
-                                                <action selector="logOutInMapView:" destination="VRO-tQ-PKS" id="gNF-g9-Yoj"/>
+                                                <action selector="logoutButtonClicked:" destination="VRO-tQ-PKS" id="1DF-zr-D0E"/>
                                             </connections>
                                         </barButtonItem>
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="refresh" id="Tje-rd-1Ge"/>
+                                            <barButtonItem systemItem="refresh" id="Tje-rd-1Ge">
+                                                <connections>
+                                                    <action selector="refreshButtonClicked:" destination="VRO-tQ-PKS" id="Ad4-jf-QOa"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem image="pin" id="Jv7-4r-ubO">
                                                 <connections>
-                                                    <action selector="pinButtonClicked:" destination="VRO-tQ-PKS" id="fMp-cw-aGo"/>
+                                                    <action selector="refreshButtonClicked:" destination="VRO-tQ-PKS" id="JVd-s8-zpx"/>
                                                 </connections>
                                             </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zal-70-bWu">
-                                <rect key="frame" x="-4" y="64" width="328" height="455"/>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -418,15 +429,21 @@ today?</string>
                             <constraint firstItem="vfN-FP-dmh" firstAttribute="leading" secondItem="flY-F0-EDK" secondAttribute="leadingMargin" constant="-20" id="VRA-PB-C3G"/>
                             <constraint firstItem="zal-70-bWu" firstAttribute="top" secondItem="vfN-FP-dmh" secondAttribute="bottom" id="ad8-uR-QeT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vfN-FP-dmh" secondAttribute="trailing" constant="-20" id="eVN-Hb-yvu"/>
-                            <constraint firstItem="zal-70-bWu" firstAttribute="leading" secondItem="flY-F0-EDK" secondAttribute="leadingMargin" constant="-20" id="v94-O8-7z6"/>
+                            <constraint firstItem="zal-70-bWu" firstAttribute="leading" secondItem="flY-F0-EDK" secondAttribute="leadingMargin" constant="-16" id="v94-O8-7z6"/>
                             <constraint firstItem="ReP-4X-xdt" firstAttribute="top" secondItem="zal-70-bWu" secondAttribute="bottom" id="w62-Qo-h1e"/>
                             <constraint firstItem="vfN-FP-dmh" firstAttribute="top" secondItem="wWU-Yg-i1K" secondAttribute="bottom" id="y3a-mo-8WK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="zal-70-bWu" secondAttribute="trailing" constant="-20" id="yEO-4J-Avj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zal-70-bWu" secondAttribute="trailing" constant="-28" id="yEO-4J-Avj"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ad8-uR-QeT"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Qah-qN-jrt"/>
                     <connections>
                         <outlet property="mapView" destination="zal-70-bWu" id="koj-JL-FkU"/>
+                        <outlet property="navigationBar" destination="vfN-FP-dmh" id="t71-qf-M0A"/>
                         <segue destination="t4F-H2-6M1" kind="presentation" identifier="moveFromMapView" id="i7L-GZ-eVx"/>
                     </connections>
                 </viewController>
