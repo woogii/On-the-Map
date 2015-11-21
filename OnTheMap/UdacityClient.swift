@@ -51,7 +51,7 @@ class UdacityClient : NSObject {
         
         taskForGETMethod(request) {  (JSONResult, error) in
             
-            if let err = error { // Handle error...
+            if let err = error {  
                 print(err)
                 completionHandler(success:false, errorString:"Fetch Failed(Network error)")
             } else {

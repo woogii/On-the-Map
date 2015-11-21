@@ -9,7 +9,6 @@
 import Foundation
 
 
-
 class ParseClient : NSObject {
     
     var session : NSURLSession
@@ -50,13 +49,12 @@ class ParseClient : NSObject {
                     let studentInfo = StudentInfo.studentInfoFromResults(results)
 
                     completionHandler(result: studentInfo, errorString: nil)
-                  }
+                }
                 else {
-                    completionHandler(result: nil, errorString: NSError(domain: "getStudentInfo parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentInfo"]))
+                    completionHandler(result: nil, errorString: NSError(domain: "getStudentInfo parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not download studentInfo"]))
                 }
             }
         }
-        
     }
     
     

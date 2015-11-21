@@ -38,7 +38,5 @@ class StudentInfo : NSObject, MKAnnotation {
         }
     
         return studentInfo
-    }
-
-    
+    }    
 }

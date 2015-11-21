@@ -12,10 +12,12 @@ class StudentListViewController : UIViewController {
     
     @IBOutlet weak var studentsTableView: UITableView!
     var activityIndicator:UIActivityIndicatorView!
-    
+    let cellIdentifier = "studentListViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        studentsTableView.estimatedRowHeight = 100.0
+        
         activityIndicator = UIActivityIndicatorView.init(activityIndicatorStyle: .White)
         activityIndicator.frame = CGRectMake(0,0,50,50)
         activityIndicator.layer.cornerRadius = 5
@@ -86,19 +88,27 @@ class StudentListViewController : UIViewController {
 
 extension StudentListViewController : UITableViewDelegate, UITableViewDataSource{
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
      
         /* Get cell type */
-        let cellReuseIdentifier = "StudentListViewCell"
+        //let cellReuseIdentifier = "StudentListViewCell"
         let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StudentListTableViewCell
         
         /* Set cell defaults */
-        cell.textLabel!.text = "\(student.firstName)\(student.lastName)"
-        cell.detailTextLabel!.text = student.mediaURL
-        cell.imageView!.image = UIImage(named: "pin")
-        cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
-           
+        //cell.textLabel!.text = "\(student.firstName)\(student.lastName)"
+        //cell.detailTextLabel!.text = student.mediaURL
+        //cell.imageView!.image = UIImage(named: "pin")
+        //cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
+       
+        cell.nameLabel!.text = "\(student.firstName)\(student.lastName)"
+        cell.urlLabel!.text = student.mediaURL
+        cell.customImageView!.image = UIImage(named: "pin")
+        cell.customImageView!.contentMode = UIViewContentMode.ScaleAspectFit
+        
+        
         return cell
      }
 

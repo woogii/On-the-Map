@@ -104,7 +104,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
         let address = inputLocationTextView.text
         let geocoder = CLGeocoder()
         
-        self.activityIndicator!.startAnimating()
+        activityIndicator!.startAnimating()
         
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
            
@@ -112,6 +112,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
                 
                 print("Geocode failed with error: \(error!.localizedDescription)")
                 
+                self.activityIndicator!.stopAnimating()
                 let alertView = UIAlertController(title:"", message:"Couldn't find the location. Please try again.", preferredStyle: .Alert)
                 alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
                 self.presentViewController(alertView, animated: true, completion: nil)
@@ -179,6 +180,8 @@ extension InformationPostingViewController : MKMapViewDelegate {
         let latitude:String = "\(self.coordinates!.latitude)"
         let longitude:String = "\(self.coordinates!.longitude)"
         
+        activityIndicator!.startAnimating()
+        
         ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
                 success, errorString in
             
@@ -190,6 +193,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
                     self.presentViewController(alertView, animated: true, completion: nil)
                 })
             } else {
+                self.activityIndicator!.stopAnimating()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
 

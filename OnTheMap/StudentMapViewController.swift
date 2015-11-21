@@ -12,14 +12,12 @@ import MapKit
 
 class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     var locationManager = CLLocationManager()
     let regionRadius: CLLocationDistance = 1000.0
     var activityIndicator: UIActivityIndicatorView? = nil
-
    
     var annotations = [MKAnnotation]()
 
@@ -34,7 +32,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             
             if let studentInfo = studentInfo {
     
-                // var annotations = [MKAnnotation]()
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = student.coordinate
@@ -52,6 +49,12 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             }
             else {
                 print(errorString)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    let alertView = UIAlertController(title:"", message: errorString?.localizedDescription, preferredStyle: .Alert)
+                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                })
             }
         }
     }
@@ -60,9 +63,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         activityIndicator = UIActivityIndicatorView.init(activityIndicatorStyle: .White)        
-        //var appFrame = UIScreen.mainScreen().bounds
-        //appFrame.origin.y +=  navigationBar.frame.size.height
-        //appFrame.size.height -= navigationBar.frame.size.height;
         activityIndicator!.frame = CGRectMake(0,0,50,50)
         activityIndicator!.layer.cornerRadius = 5
         activityIndicator!.center = view.center
@@ -89,7 +89,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func refreshButtonClicked(sender: UIBarButtonItem) {
-        print("test")
         
         dispatch_async(dispatch_get_main_queue(), {
             self.activityIndicator!.startAnimating()
@@ -98,8 +97,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
         ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-                
-                // var annotations = [MKAnnotation]()
+            
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = student.coordinate

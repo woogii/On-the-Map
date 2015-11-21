@@ -45,10 +45,9 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         
         userNameTextField.delegate = self
         passwordTextField.delegate = self
+        
     }
 
-    
-    
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
         activityIndicator!.startAnimating()
@@ -73,10 +72,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     
     func completeLogin()  {
         dispatch_async(dispatch_get_main_queue(), {
-            
             self.activityIndicator!.stopAnimating()
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
-            
             self.presentViewController(controller, animated: true, completion: nil)
         })
 
@@ -87,6 +84,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
             let alertView = UIAlertController(title:"Login Error", message:errorString, preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
             self.presentViewController(alertView, animated: true, completion: nil)
+            self.activityIndicator!.stopAnimating()
         })
     }
     
