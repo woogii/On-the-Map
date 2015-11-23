@@ -11,14 +11,13 @@ import Foundation
 class UdacityClient : NSObject {
     
     var session : NSURLSession
-    
-    let baseURLSecure :String = "https://www.udacity.com/api/"
     var sessionID : String? = nil
     var userID: String? = nil
     var lastName: String? = nil
     var firstName: String? = nil
     var fullName: String?
-    
+  
+
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
@@ -186,6 +185,34 @@ class UdacityClient : NSObject {
                 }
             
             }
+        }
+    }
+
+    func postLoginSessionWithFB ( accessToken :String, completionHandler : (success:Bool,  errorString:String?)-> Void)  {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+        request.HTTPMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = "{\"facebook_mobile\": {\"access_token\": \"\(accessToken)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
+        
+
+        taskForPOSTMethod(request) { JSONResult , error in
+            
+            if let err = error {
+                print(err)
+                completionHandler(success: false, errorString: "The Internet connection appears to be offline")
+            } else {
+                
+                if let accountInfo = JSONResult["session"] as? NSDictionary {
+                    print(accountInfo["id"])
+                    completionHandler(success: true, errorString: nil)
+            
+                } else {
+                    completionHandler(success: false, errorString: "Invalid Email or Password")
+                }
+            }
+            
         }
     }
 

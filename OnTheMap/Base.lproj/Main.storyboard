@@ -59,6 +59,9 @@
                                     <constraint firstAttribute="height" constant="46" id="zlK-Qq-hCk"/>
                                 </constraints>
                                 <state key="normal" image="facebook_image"/>
+                                <connections>
+                                    <action selector="facebookLoginClicked:" destination="EXd-pG-fY2" eventType="touchUpInside" id="Fv0-Dc-j8h"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgB-zQ-Axy">
                                 <rect key="frame" x="16" y="217" width="288" height="43"/>

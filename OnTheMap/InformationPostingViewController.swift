@@ -9,8 +9,10 @@
 import UIKit
 import MapKit
 
-
+// MARK: - InformationPostingViewController: UIViewController
 class InformationPostingViewController : UIViewController, UITextViewDelegate {
+    
+    // MARK: - Properties
     
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var inputLinkTextView: UITextView!
@@ -29,6 +31,8 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
         
     let regionRadius:CLLocationDistance = 1000.0
 
+    // MARK: - Life Cycle
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         view.addGestureRecognizer(tapRecognizer!)

@@ -19,6 +19,16 @@
 		D229C66E1C00680500B804CC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D229C66B1C00680500B804CC /* Roboto-Regular.ttf */; };
 		D229C66F1C00680500B804CC /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D229C66C1C00680500B804CC /* Roboto-Thin.ttf */; };
 		D229C6741C009F6A00B804CC /* StudentListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229C6731C009F6A00B804CC /* StudentListTableViewCell.swift */; };
+		D229C6841C02E69800B804CC /* DocSets in Resources */ = {isa = PBXBuildFile; fileRef = D229C67A1C02E69800B804CC /* DocSets */; };
+		D229C6851C02E69800B804CC /* FBSDKMessengerShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C67B1C02E69800B804CC /* FBSDKMessengerShareKit.framework */; };
+		D229C6861C02E69800B804CC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C67C1C02E69800B804CC /* FBAudienceNetwork.framework */; };
+		D229C6871C02E69800B804CC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D229C67D1C02E69800B804CC /* LICENSE.txt */; };
+		D229C6881C02E69800B804CC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = D229C67E1C02E69800B804CC /* README.txt */; };
+		D229C6891C02E69800B804CC /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C67F1C02E69800B804CC /* Bolts.framework */; };
+		D229C68A1C02E69800B804CC /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D229C6801C02E69800B804CC /* FacebookSDKStrings.bundle */; };
+		D229C68B1C02E69800B804CC /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C6811C02E69800B804CC /* FBSDKCoreKit.framework */; };
+		D229C68C1C02E69800B804CC /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C6821C02E69800B804CC /* FBSDKLoginKit.framework */; };
+		D229C68D1C02E69800B804CC /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D229C6831C02E69800B804CC /* FBSDKShareKit.framework */; };
 		D294534F1BFAF29300292702 /* StudentMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294534E1BFAF29300292702 /* StudentMapViewController.swift */; };
 		D29453511BFB537B00292702 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453501BFB537B00292702 /* ParseClient.swift */; };
 		D29453531BFC27C100292702 /* StudentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29453521BFC27C100292702 /* StudentInfo.swift */; };
@@ -62,6 +72,16 @@
 		D229C66B1C00680500B804CC /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		D229C66C1C00680500B804CC /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		D229C6731C009F6A00B804CC /* StudentListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentListTableViewCell.swift; sourceTree = "<group>"; };
+		D229C67A1C02E69800B804CC /* DocSets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DocSets; sourceTree = "<group>"; };
+		D229C67B1C02E69800B804CC /* FBSDKMessengerShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKMessengerShareKit.framework; sourceTree = "<group>"; };
+		D229C67C1C02E69800B804CC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		D229C67D1C02E69800B804CC /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D229C67E1C02E69800B804CC /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		D229C67F1C02E69800B804CC /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		D229C6801C02E69800B804CC /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKStrings.bundle; sourceTree = "<group>"; };
+		D229C6811C02E69800B804CC /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		D229C6821C02E69800B804CC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		D229C6831C02E69800B804CC /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		D294534E1BFAF29300292702 /* StudentMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentMapViewController.swift; sourceTree = "<group>"; };
 		D29453501BFB537B00292702 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		D29453521BFC27C100292702 /* StudentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInfo.swift; sourceTree = "<group>"; };
@@ -74,6 +94,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D229C6891C02E69800B804CC /* Bolts.framework in Frameworks */,
+				D229C68B1C02E69800B804CC /* FBSDKCoreKit.framework in Frameworks */,
+				D229C68D1C02E69800B804CC /* FBSDKShareKit.framework in Frameworks */,
+				D229C68C1C02E69800B804CC /* FBSDKLoginKit.framework in Frameworks */,
+				D229C6851C02E69800B804CC /* FBSDKMessengerShareKit.framework in Frameworks */,
+				D229C6861C02E69800B804CC /* FBAudienceNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +146,7 @@
 		D22140941BF8CC8400150D1D /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				D229C6791C02E63F00B804CC /* FacebookSDK */,
 				D22140951BF8CC8400150D1D /* AppDelegate.swift */,
 				D229C6721C0081AF00B804CC /* Model */,
 				D229C6751C009F7200B804CC /* View */,
@@ -181,9 +208,8 @@
 		D229C6721C0081AF00B804CC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D229C6761C00CE0D00B804CC /* Client */,
 				D29453521BFC27C100292702 /* StudentInfo.swift */,
-				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
-				D29453501BFB537B00292702 /* ParseClient.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -194,6 +220,32 @@
 				D229C6731C009F6A00B804CC /* StudentListTableViewCell.swift */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		D229C6761C00CE0D00B804CC /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				D22140C51BF9B00C00150D1D /* UdacityClient.swift */,
+				D29453501BFB537B00292702 /* ParseClient.swift */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
+		D229C6791C02E63F00B804CC /* FacebookSDK */ = {
+			isa = PBXGroup;
+			children = (
+				D229C67A1C02E69800B804CC /* DocSets */,
+				D229C67B1C02E69800B804CC /* FBSDKMessengerShareKit.framework */,
+				D229C67C1C02E69800B804CC /* FBAudienceNetwork.framework */,
+				D229C67D1C02E69800B804CC /* LICENSE.txt */,
+				D229C67E1C02E69800B804CC /* README.txt */,
+				D229C67F1C02E69800B804CC /* Bolts.framework */,
+				D229C6801C02E69800B804CC /* FacebookSDKStrings.bundle */,
+				D229C6811C02E69800B804CC /* FBSDKCoreKit.framework */,
+				D229C6821C02E69800B804CC /* FBSDKLoginKit.framework */,
+				D229C6831C02E69800B804CC /* FBSDKShareKit.framework */,
+			);
+			name = FacebookSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,8 +353,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D229C66D1C00680500B804CC /* Roboto-Medium.ttf in Resources */,
+				D229C68A1C02E69800B804CC /* FacebookSDKStrings.bundle in Resources */,
+				D229C6881C02E69800B804CC /* README.txt in Resources */,
+				D229C6841C02E69800B804CC /* DocSets in Resources */,
 				D22140A01BF8CC8400150D1D /* LaunchScreen.storyboard in Resources */,
 				D229C66F1C00680500B804CC /* Roboto-Thin.ttf in Resources */,
+				D229C6871C02E69800B804CC /* LICENSE.txt in Resources */,
 				D229C66E1C00680500B804CC /* Roboto-Regular.ttf in Resources */,
 				D221409D1BF8CC8400150D1D /* Assets.xcassets in Resources */,
 				D221409B1BF8CC8400150D1D /* Main.storyboard in Resources */,
@@ -480,6 +536,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wook2.OnTheMap;
@@ -491,6 +551,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wook2.OnTheMap;

@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 
 class LoginViewController : UIViewController, UITextFieldDelegate {
+    
+    // MARK: Properties
     
     @IBOutlet weak var loginBackgroundImage: UIImageView!
     @IBOutlet weak var userNameTextField: UITextField!
@@ -18,6 +22,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     var session: NSURLSession!
     var tapRecognizer:UITapGestureRecognizer? = nil
     var activityIndicator: UIActivityIndicatorView? = nil
+    var accessToken:String!
     
     
     override func viewWillAppear(animated: Bool) {
@@ -48,6 +53,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         
     }
 
+    // MARK: - Facebook Login
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
         activityIndicator!.startAnimating()
@@ -69,6 +75,51 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         }
         
     }
+    
+    
+    @IBAction func facebookLoginClicked(sender: AnyObject) {
+        
+        let facebookReadPermission = ["public_profile", "email"]
+        
+        FBSDKLoginManager().logInWithReadPermissions(facebookReadPermission, fromViewController:self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
+          
+            if error != nil {
+                FBSDKLoginManager().logOut()
+                
+            } else if result.isCancelled {
+                FBSDKLoginManager().logOut()
+            } else {
+
+                // Check permission whether there is any permission missing
+                var allPermsGranted = true
+                
+                let grantedPermissions = Array(result.grantedPermissions).map( {"\($0)"})
+                
+                for permission in facebookReadPermission {
+                    
+                    if !grantedPermissions.contains(permission) {
+                        allPermsGranted = false
+                        break
+                    }
+                }
+                
+                if allPermsGranted {
+                  
+                    // login with user access token from facebook
+                    UdacityClient.sharedInstance().postLoginSessionWithFB( result.token.tokenString) { (success, error) in
+                        if error == nil {
+                            self.completeLogin()
+                        }
+                        else {
+                            self.displayError(error)
+                        }
+                    
+                    }
+                }
+            }
+        })
+    }
+    
     
     func completeLogin()  {
         dispatch_async(dispatch_get_main_queue(), {
@@ -102,26 +153,4 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         return false
     }
         
-    func escapedParameters(parameters: [String : AnyObject]) -> String {
-        
-        var urlVars = [String]()
-        
-        for (key, value) in parameters {
-            
-            /* Make sure that it is a string value */
-            let stringValue = "\(value)"
-            
-            /* Escape it */
-            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-            
-            /* Append it */
-            urlVars += [key + "=" + "\(escapedValue!)"]
-            
-        }
-        
-        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
-    }
-
-    
-    
 }

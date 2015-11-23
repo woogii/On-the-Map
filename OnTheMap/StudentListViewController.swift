@@ -10,6 +10,7 @@ import UIKit
 
 class StudentListViewController : UIViewController {
     
+    // MARK: Properties
     @IBOutlet weak var studentsTableView: UITableView!
     var activityIndicator:UIActivityIndicatorView!
     let cellIdentifier = "studentListViewCell"
@@ -31,6 +32,7 @@ class StudentListViewController : UIViewController {
     override func viewWillAppear(animated:Bool)
     {
         super.viewWillAppear(animated)
+        deselectAllRows()
         
         ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
             
@@ -42,6 +44,14 @@ class StudentListViewController : UIViewController {
             }
             else {
                 print(errorString)
+            }
+        }
+    }
+    
+    func deselectAllRows() {
+        if let selectedRows = studentsTableView.indexPathsForSelectedRows {
+            for indexPath in selectedRows {
+                studentsTableView.deselectRowAtIndexPath(indexPath, animated: false)
             }
         }
     }
