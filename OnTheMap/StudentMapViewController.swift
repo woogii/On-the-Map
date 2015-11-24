@@ -11,6 +11,7 @@ import MapKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+// MARK: - StudentMapViewController: UIViewController, MKMapViewDelegate
 
 class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
@@ -83,6 +84,8 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
         view.addSubview(activityIndicator!)
     }
     
+    // MARK: - UIView Action Methods
+    
     @IBAction func logoutButtonClicked(sender: AnyObject) {
         
         if ( FBSDKAccessToken.currentAccessToken() != nil ) {
@@ -95,8 +98,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             UdacityClient.sharedInstance().deleteSession() {  success , errorString in
             
                 if success {
-                    // If implementing 'dismissViewControllerAnimated' function without dispatch_async block, an error occurs with the following message
-                    // 'This application is modifying the autolayout engine from a background thread, which can lead to engine corruption and weird crashes.  This will cause an exception in a future release.'
+                    // Changing UI should occur in the main thread, otherwise it cause an error
                     dispatch_async(dispatch_get_main_queue(), {
                         self.dismissViewControllerAnimated(true, completion: nil)
                     })
@@ -173,10 +175,12 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
 
     }
     
+    // MARK: - Custom Function
     func overWriteStudentInfo(alertAction: UIAlertAction!) -> Void {
         self.performSegueWithIdentifier("moveFromMapView", sender: nil)
     }
     
+    // MARK: - MKMapView Delegate Method
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         

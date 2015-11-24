@@ -10,10 +10,11 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+// MARK: - LoginViewController: UIViewController, UITextFieldDelegate
 
 class LoginViewController : UIViewController, UITextFieldDelegate {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     @IBOutlet weak var loginBackgroundImage: UIImageView!
     @IBOutlet weak var userNameTextField: UITextField!
@@ -24,6 +25,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     var activityIndicator: UIActivityIndicatorView? = nil
     var accessToken:String!
     
+    // MARK: - Life Cycle
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,7 +55,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         
     }
 
-    // MARK: - Facebook Login
+    // MARK: - UIView Action Method
+    
     @IBAction func loginButtonTouch(sender: AnyObject) {
         
         activityIndicator!.startAnimating()
@@ -79,6 +82,22 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         
         let facebookReadPermission = ["public_profile", "email"]
         
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            
+            // login with user access token from facebook
+            UdacityClient.sharedInstance().processAuthenticationWithFB( FBSDKAccessToken.currentAccessToken().tokenString) { (success, error) in
+                if error == nil {
+                    self.completeLogin()
+                }
+                else {
+                    self.displayError(error)
+                }
+                
+            }
+            
+            return
+        }
+        // Read user permissions
         FBSDKLoginManager().logInWithReadPermissions(facebookReadPermission, fromViewController:self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
           
             if error != nil {
@@ -118,6 +137,12 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         })
     }
     
+    @IBAction func signUpButtonTouch(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.udacity.com/account/auth#!/signin")!)
+    }
+
+    
+    // MARK: - Custome Functions
     
     func completeLogin()  {
         dispatch_async(dispatch_get_main_queue(), {
@@ -137,14 +162,13 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         })
     }
     
-    @IBAction func signUpButtonTouch(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.udacity.com/account/auth#!/signin")!)
-    }
-
+    // MARK: - UIGestureRecognizer Action
     
     func handleSingleTap(recognizer : UITapGestureRecognizer ) {
         self.view.endEditing(true)
     }
+    
+    // MARK: - UITextView Delegate Method
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()

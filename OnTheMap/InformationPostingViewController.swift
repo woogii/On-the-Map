@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 
-// MARK: - InformationPostingViewController: UIViewController
+// MARK: - InformationPostingViewController: UIViewController, UITextViewDelegate
+
 class InformationPostingViewController : UIViewController, UITextViewDelegate {
     
     // MARK: - Properties
@@ -67,14 +68,18 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
         
     }
     
+    // MARK: - UIGestureRecognizer Action
+    
     func handleSingleTap(recognizer : UITapGestureRecognizer ) {
         view.endEditing(true)
     }
     
+    // MARK: - TextView Delegate Methods
+    
     //  This method gets called whenever the user types a new character or deletes an existing character
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
-        if(text == "\n") {
+        if(text == "\n") {                          // if the return key is entered
             textView.resignFirstResponder()
             return false                            //  replacement operation should be aborted
         }
@@ -93,6 +98,8 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
         return true
     }
     
+    // MARK: - UIView Action Method
+    
     @IBAction func cancelButtonClicked(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -100,7 +107,11 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
     
 }
 
+// MARK: - InformationPostingViewController: MKMapViewDelegate
+
 extension InformationPostingViewController : MKMapViewDelegate {
+    
+    // MARK: - UIView Action Method
     
     @IBAction func findButtonClicked(sender: AnyObject) {
         
@@ -109,6 +120,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
         activityIndicator!.startAnimating()
         
+        // Submits a forward-geocoding request using the specified string
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
            
             if( error != nil ){
@@ -131,6 +143,44 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
     }
     
+    // When 'submit' button is clicked, updating a student location by using Pasre API 
+    @IBAction func submitButtonClicked(sender: AnyObject) {
+        
+        if inputLinkTextView.text == nil {
+            let alertView = UIAlertController(title:"", message:"Please enter a link.", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
+            return
+        }
+        
+        let latitude:String = "\(self.coordinates!.latitude)"
+        let longitude:String = "\(self.coordinates!.longitude)"
+        
+        activityIndicator!.startAnimating()
+        
+        ParseClient.sharedInstance().updateStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+            success, errorString in
+            
+            if errorString != nil {
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
+                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                })
+            } else {
+                self.activityIndicator!.stopAnimating()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            
+        }
+        
+    }
+
+    // MARK: - Custom Function
+    
+    // Show map based on the result value of a geocoding request
+    
     func showMap() {
         
         inputLinkTextView.hidden = false
@@ -152,6 +202,8 @@ extension InformationPostingViewController : MKMapViewDelegate {
         activityIndicator!.stopAnimating()
     }
     
+    // MARK: - MKMapView Delegate Method
+    
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         let identifier = "pin"
@@ -168,57 +220,4 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
         return pinView
     }
-
-
-    
-    @IBAction func submitButtonClicked(sender: AnyObject) {
-        
-        if inputLinkTextView.text == nil {
-            let alertView = UIAlertController(title:"", message:"Please enter a link.", preferredStyle: .Alert)
-            alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
-            self.presentViewController(alertView, animated: true, completion: nil)
-            return
-        }
-
-        let latitude:String = "\(self.coordinates!.latitude)"
-        let longitude:String = "\(self.coordinates!.longitude)"
-        
-        activityIndicator!.startAnimating()
- 
-        ParseClient.sharedInstance().updateStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
-            success, errorString in
-            
-            if errorString != nil {
-                dispatch_async(dispatch_get_main_queue(), {
-                    
-                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
-                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
-                    self.presentViewController(alertView, animated: true, completion: nil)
-                })
-            } else {
-                self.activityIndicator!.stopAnimating()
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-            
-        }
-
-//        ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
-//                success, errorString in
-//            
-//            if errorString != nil {
-//                dispatch_async(dispatch_get_main_queue(), {
-//                
-//                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
-//                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
-//                    self.presentViewController(alertView, animated: true, completion: nil)
-//                })
-//            } else {
-//                self.activityIndicator!.stopAnimating()
-//                self.dismissViewControllerAnimated(true, completion: nil)
-//            }
-//
-//        }
-    
-    }
-    
 }

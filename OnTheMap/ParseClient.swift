@@ -8,28 +8,31 @@
 
 import Foundation
 
+// MARK : -  UdacityClient : NSObject
 
 class ParseClient : NSObject {
+
+    
+    // MARK : - Properties 
     
     var session : NSURLSession
-
-    
-    // let baseURLSecure :String  = "https://www.udacity.com/api/"
-
     var studentInfo = [StudentInfo]()
+    var objectId :String? = nil
     
     let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
     let restApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     let parseApplicationIDHeader =  "X-Parse-Application-Id"
     let restApiKeyHeader = "X-Parse-REST-API-Key"
-    var objectId :String? = nil
-
+    
+    // MARK : - Init Method 
+    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
     
     
+    // MARK : - GET Methods
     
     func getStudentLocation(completionHandler:(result:[StudentInfo]?, errorString: NSError?)->Void ) {
         
@@ -101,10 +104,6 @@ class ParseClient : NSObject {
             }
         }
     }
-
-    
-    
-    // MARK: GET
     
     func parseTaskForGETMethod(request:NSMutableURLRequest, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
@@ -146,39 +145,8 @@ class ParseClient : NSObject {
         return task
     }
     
-    
 
-    
-//    func postLoginSession (username:String, password:String, completionHandler : (success:Bool, userID:String?, errorString:String?)-> Void)  {
-//        
-//        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-//        
-//        request.HTTPMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        
-//        request.HTTPBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
-//        
-//        parseTaskForPOSTMethod(request) { JSONResult , error in
-//            
-//            if let err = error {
-//                print(err)
-//                completionHandler(success: false, userID: nil, errorString: "Login Failed(Create Session)")
-//            } else {
-//                
-//                if let accountInfo = JSONResult["account"] as? NSDictionary {
-//                    
-//                    if let userID = accountInfo["key"] as? String {
-//                        
-//                        completionHandler(success: true, userID: userID, errorString: nil)
-//                    }
-//                } else {
-//                    completionHandler(success: false, userID: nil, errorString: "Login Failed(Create Session")
-//                }
-//            }
-//            
-//        }
-//    }
+    // MARK : - POST Methods 
     
     func postStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:String?)-> Void)  {
         
@@ -208,7 +176,6 @@ class ParseClient : NSObject {
         }
         
     }
-    
     
     func parseTaskForPOSTMethod (request:NSMutableURLRequest, completionHandler: (result:AnyObject!, error:NSError?)->Void)->NSURLSessionDataTask? {
         
@@ -249,6 +216,8 @@ class ParseClient : NSObject {
         return task
     }
     
+    // MARK : - PUT Method
+    
     func updateStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:String?)-> Void)  {
         
         
@@ -260,12 +229,6 @@ class ParseClient : NSObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         request.HTTPBody = "{\"uniqueKey\": \"\(UdacityClient.sharedInstance().userID!)\", \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\",\"mapString\": \"\(mapString!)\", \"mediaURL\": \"\(mediaURL!)\",\"latitude\": \(latitude!), \"longitude\": \(longitude!)}".dataUsingEncoding(NSUTF8StringEncoding)
-        
-
-        //let urlString = "https://api.parse.com/1/classes/StudentLocation/8ZExGR5uX8"
-        //let url = NSURL(string: urlString)
-        //let request = NSMutableURLRequest(URL: url!)
-        //request.HTTPMethod = "PUT"
         
         parseTaskForPOSTMethod(request) { JSONResult , error in
             
@@ -285,6 +248,7 @@ class ParseClient : NSObject {
     }
 
     
+    // MARK: - Parsing JSON
     
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
@@ -299,6 +263,8 @@ class ParseClient : NSObject {
         
         completionHandler(result: parsedResult, error: nil)
     }
+    
+     // MARK: - Escaping URL
     
     /* Helper function: Given a dictionary of parameters, convert to a string for a url */
     func escapedParameters(parameters: [String : AnyObject]) -> String {
@@ -323,6 +289,7 @@ class ParseClient : NSObject {
 
     
     // MARK: - Shared Instance
+    
     class func sharedInstance()->ParseClient {
         
         struct Singleton {

@@ -9,9 +9,11 @@
 import UIKit
 
 // MARK: - StudentListTableViewCell: UITableViewCell
+
 class StudentListTableViewCell: UITableViewCell {
 
     // MARK: - Properties
+    
     @IBOutlet weak var customImageView: UIImageView!
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!

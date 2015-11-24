@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - StudentListViewController : UIViewController
+
 class StudentListViewController : UIViewController {
     
     // MARK: - Properties
@@ -15,6 +17,8 @@ class StudentListViewController : UIViewController {
     @IBOutlet weak var studentsTableView: UITableView!
     var activityIndicator:UIActivityIndicatorView!
     let cellIdentifier = "studentListViewCell"
+   
+    // MARK: - Life Cycle 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +53,7 @@ class StudentListViewController : UIViewController {
         }
     }
     
+    // MARK: - Custom Function
     func deselectAllRows() {
         if let selectedRows = studentsTableView.indexPathsForSelectedRows {
             for indexPath in selectedRows {
@@ -98,6 +103,8 @@ class StudentListViewController : UIViewController {
     }
         
 }
+
+// MARK: - extension StudentListViewController : UITableViewDelegate, UITableViewDataSource 
 
 extension StudentListViewController : UITableViewDelegate, UITableViewDataSource{
     

@@ -8,7 +8,11 @@
 
 import Foundation
 
+// MARK : -  UdacityClient : NSObject
+
 class UdacityClient : NSObject {
+
+    // MARK : - Properties
     
     var session : NSURLSession
     var sessionID : String? = nil
@@ -16,12 +20,14 @@ class UdacityClient : NSObject {
     var lastName: String? = nil
     var firstName: String? = nil
   
-
+    // MARK : - Init Method
+    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
     
+    // MARK : - Method for Processing Login
     
     func processAuthentication(username:String, password:String,
         completionHandler:(success:Bool, erroString:String?)->Void) {
@@ -30,7 +36,7 @@ class UdacityClient : NSObject {
             
             if success {
                 self.userID = userID
-                print(self.userID)
+                
                 self.getUserData(userID!) { (success, errorString) in
 
                     completionHandler(success: success, erroString: errorString)
@@ -41,6 +47,8 @@ class UdacityClient : NSObject {
         }
     }
     
+
+    // MARK : - Method for Processing Facebook Login
     
     func processAuthenticationWithFB(accessToken:String, completionHandler:(success:Bool, erroString:String?)->Void) {
             
@@ -60,10 +68,10 @@ class UdacityClient : NSObject {
     }
 
     
+    // MARK : - GET Methods
     
     func getUserData( userID:String, completionHandler: (success:Bool, errorString:String?)->Void) {
         
-        print(userID)
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userID)")!)
         request.HTTPMethod = "GET"
         
@@ -91,9 +99,6 @@ class UdacityClient : NSObject {
             
         }
     }
-    
-        
-    // MARK: GET
     
     func taskForGETMethod(request:NSMutableURLRequest, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
@@ -137,6 +142,8 @@ class UdacityClient : NSObject {
         return task
     }
     
+    // MARK : - POST Methods
+    
     func postLoginSession (username:String, password:String, completionHandler : (success:Bool, userID:String?, errorString:String?)-> Void)  {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
@@ -168,44 +175,7 @@ class UdacityClient : NSObject {
         }
     }
     
-    func deleteSession( completionHandler:(success : Bool, errorString:String?)->Void ) {
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-        request.HTTPMethod = "DELETE"
-        var xsrfCookie: NSHTTPCookie? = nil
-        
-        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        
-        for cookie in sharedCookieStorage.cookies! as [NSHTTPCookie] {
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-        }
-        
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value , forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        
-        
-        taskForPOSTMethod(request) {  JSONResult, error in
-            
-            if let err = error {
-                print(err)
-            } else {
-            
-                if let result = JSONResult["session"] as? NSDictionary {
-                
-                    if let userID = result["id"] as? String {
-                        print(userID)
-                        completionHandler( success: true, errorString: nil)
-                    }
-                
-                } else {
-                    completionHandler(success: false, errorString: "Error occured while logout")
-                }
-            
-            }
-        }
-    }
-
+    
     func postLoginSessionWithFB ( accessToken :String, completionHandler : (success:Bool, userID:String?, errorString:String?)-> Void)  {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
@@ -259,7 +229,49 @@ class UdacityClient : NSObject {
         return task
     }
     
-     
+    // MARK : - Delete Method
+    
+    func deleteSession( completionHandler:(success : Bool, errorString:String?)->Void ) {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+        request.HTTPMethod = "DELETE"
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in sharedCookieStorage.cookies! as [NSHTTPCookie] {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value , forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        
+        taskForPOSTMethod(request) {  JSONResult, error in
+            
+            if let err = error {
+                print(err)
+            } else {
+                
+                if let result = JSONResult["session"] as? NSDictionary {
+                    
+                    if let userID = result["id"] as? String {
+                        print(userID)
+                        completionHandler( success: true, errorString: nil)
+                    }
+                    
+                } else {
+                    completionHandler(success: false, errorString: "Error occured while logout")
+                }
+                
+            }
+        }
+    }
+
+    
+    // MARK: - Parsing JSON
+    
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
@@ -275,6 +287,7 @@ class UdacityClient : NSObject {
     }
 
     // MARK: - Shared Instance
+    
     class func sharedInstance()->UdacityClient {
         
         struct Singleton {
