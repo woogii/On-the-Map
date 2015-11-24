@@ -34,7 +34,6 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
         })
         
         if (mapView.annotations.count != 0) {
-            print(mapView.annotations.count)
             for annotation in mapView.annotations {
                 mapView.removeAnnotation(annotation)
             }
@@ -64,6 +63,7 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                 print(errorString)
                 
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator!.stopAnimating()
                     let alertView = UIAlertController(title:"", message: errorString?.localizedDescription, preferredStyle: .Alert)
                     alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
                     self.presentViewController(alertView, animated: true, completion: nil)
@@ -139,6 +139,13 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             }
             else {
                 print(errorString)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator!.stopAnimating()
+                    let alertView = UIAlertController(title:"", message: errorString?.localizedDescription, preferredStyle: .Alert)
+                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                })
             }
         }
         
@@ -167,9 +174,23 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
                 
             }
             else {
-                 dispatch_async(dispatch_get_main_queue(), {
-                self.performSegueWithIdentifier("moveFromMapView", sender: nil)
-                })
+                
+                if let errorString = errorString {
+                    
+                    print(errorString)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.activityIndicator!.stopAnimating()
+                        let alertView = UIAlertController(title:"", message: errorString.localizedDescription, preferredStyle: .Alert)
+                        alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                        self.presentViewController(alertView, animated: true, completion: nil)
+                    })
+
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.performSegueWithIdentifier("moveFromMapView", sender: nil)
+                    })
+                }
             }
         }
 

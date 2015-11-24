@@ -42,7 +42,7 @@ class ParseClient : NSObject {
         request.addValue(restApiKey, forHTTPHeaderField: restApiKeyHeader)
         
         
-        parseTaskForGETMethod(request) { (JSONResult, error) in
+        parseTaskMethod(request) { (JSONResult, error) in
         
             if let error = error {
                 completionHandler(result: nil, errorString: error)
@@ -55,24 +55,22 @@ class ParseClient : NSObject {
                     completionHandler(result: studentInfo, errorString: nil)
                 }
                 else {
-                    completionHandler(result: nil, errorString: NSError(domain: "getStudentInfo parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not download studentInfo"]))
+                    completionHandler(result: nil, errorString: error )
                 }
             }
         }
     }
-    
-    func queryStudentLocation(completionHandler:(studentName:String?, errorString: NSError?)->Void )  {
+ 
+
+    func queryStudentLocation( completionHandler:(studentName:String?, errorString: NSError?)->Void )  {
         
         
         let baseSecureURL = "https://api.parse.com/1/classes/StudentLocation"
         let parameters = [
                 "where" : "{\"uniqueKey\":\"\(UdacityClient.sharedInstance().userID!)\"}"
         ]
-        print(UdacityClient.sharedInstance().userID)
+        
         let urlString = baseSecureURL + escapedParameters(parameters)
-        
-        print(urlString)
-        
         let url = NSURL(string: urlString)
         let request = NSMutableURLRequest(URL: url!)
         
@@ -80,7 +78,7 @@ class ParseClient : NSObject {
         request.addValue(restApiKey, forHTTPHeaderField: restApiKeyHeader)
         
 
-        parseTaskForGETMethod(request) { (JSONResult, error) in
+        parseTaskMethod(request) { JSONResult, error in
             
             if let error = error {
                 print(error)
@@ -99,44 +97,24 @@ class ParseClient : NSObject {
                 }
                 else {
                     print("no result")
-                    completionHandler(studentName: nil, errorString: NSError(domain: "getStudentInfo parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not download studentInfo"]))
+                    completionHandler(studentName: nil, errorString: error)
                 }
             }
         }
     }
     
-    func parseTaskForGETMethod(request:NSMutableURLRequest, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        
+    func parseTaskMethod(request:NSMutableURLRequest, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
+        
+            if (error == nil) {
+                ParseClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
+        
+            } else {
+                print(error)
+                completionHandler( result: nil, error:error)
             }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                if let response = response as? NSHTTPURLResponse {
-                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
-                } else if let response = response {
-                    print("Your request returned an invalid response! Response: \(response)!")
-                } else {
-                    print("Your request returned an invalid response!")
-                }
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                print("No data was returned by the request!")
-                return
-            }
-            
-            /* 5/6. Parse the data and use the data (happens in completion handler) */
-            ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
         
         /* 7. Start the request */
@@ -148,7 +126,7 @@ class ParseClient : NSObject {
 
     // MARK : - POST Methods 
     
-    func postStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:String?)-> Void)  {
+    func postStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:NSError?)-> Void)  {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
         request.HTTPMethod = "POST"
@@ -159,66 +137,26 @@ class ParseClient : NSObject {
         
         request.HTTPBody = "{\"uniqueKey\": \"\(UdacityClient.sharedInstance().userID!)\", \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\",\"mapString\": \"\(mapString!)\", \"mediaURL\": \"\(mediaURL!)\",\"latitude\": \(latitude!), \"longitude\": \(longitude!)}".dataUsingEncoding(NSUTF8StringEncoding)
         
-        parseTaskForPOSTMethod(request) { JSONResult , error in
+        parseTaskMethod(request) { JSONResult , error in
             
             if let err = error {
                 print(err)
-                completionHandler(success: false, errorString: "Fail to send a link. Please try again.")
+                completionHandler(success: false, errorString: error)
             } else {
-                print(JSONResult)
                 
                 if let createdAt = JSONResult["createdAt"] {
                     print(createdAt)
                 }
-                print("success")
+               
                 completionHandler(success: true, errorString: nil)
             }
         }
         
     }
-    
-    func parseTaskForPOSTMethod (request:NSMutableURLRequest, completionHandler: (result:AnyObject!, error:NSError?)->Void)->NSURLSessionDataTask? {
         
-        /* 4. Make the request */
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                if let response = response as? NSHTTPURLResponse {
-                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
-                } else if let response = response {
-                    print("Your request returned an invalid response! Response: \(response)!")
-                } else {
-                    print("Your request returned an invalid response!")
-                }
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                print("No data was returned by the request!")
-                return
-            }
-        
-            /* 5/6. Parse the data and use the data (happens in completion handler) */
-            ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
-        }
-        
-        /* 7. Start the request */
-        task.resume()
-        
-        return task
-    }
-    
     // MARK : - PUT Method
     
-    func updateStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:String?)-> Void)  {
+    func updateStudentLocation (latitude: String?, longitude: String?, mediaURL:String?, mapString:String?, completionHandler : (success:Bool, errorString:NSError?)-> Void)  {
         
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation/\(objectId!)")!)
@@ -230,11 +168,11 @@ class ParseClient : NSObject {
         
         request.HTTPBody = "{\"uniqueKey\": \"\(UdacityClient.sharedInstance().userID!)\", \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\",\"mapString\": \"\(mapString!)\", \"mediaURL\": \"\(mediaURL!)\",\"latitude\": \(latitude!), \"longitude\": \(longitude!)}".dataUsingEncoding(NSUTF8StringEncoding)
         
-        parseTaskForPOSTMethod(request) { JSONResult , error in
+        parseTaskMethod(request) { JSONResult , error in
             
             if let err = error {
                 print(err)
-                completionHandler(success: false, errorString: "Fail to send a link. Please try again.")
+                completionHandler(success: false, errorString: error)
             } else {
                 print(JSONResult)
                 

@@ -164,9 +164,10 @@ extension InformationPostingViewController : MKMapViewDelegate {
             if errorString != nil {
                 dispatch_async(dispatch_get_main_queue(), {
                     
-                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
+                    let alertView = UIAlertController(title:"", message:errorString?.localizedDescription, preferredStyle: .Alert)
                     alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
                     self.presentViewController(alertView, animated: true, completion: nil)
+                    self.activityIndicator!.stopAnimating()
                 })
             } else {
                 self.activityIndicator!.stopAnimating()

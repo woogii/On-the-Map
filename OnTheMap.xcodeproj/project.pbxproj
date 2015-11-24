@@ -149,6 +149,7 @@
 				D229C6791C02E63F00B804CC /* FacebookSDK */,
 				D22140951BF8CC8400150D1D /* AppDelegate.swift */,
 				D229C6721C0081AF00B804CC /* Model */,
+				D29453521BFC27C100292702 /* StudentInfo.swift */,
 				D229C6751C009F7200B804CC /* View */,
 				D229C6711C006D3A00B804CC /* Controllers */,
 				D229C6691C00679200B804CC /* Resources */,
@@ -209,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				D229C6761C00CE0D00B804CC /* Client */,
-				D29453521BFC27C100292702 /* StudentInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
