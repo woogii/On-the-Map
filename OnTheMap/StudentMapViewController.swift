@@ -23,32 +23,40 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     let regionRadius: CLLocationDistance = 1000.0
     var activityIndicator: UIActivityIndicatorView? = nil
    
-    var annotations = [MKAnnotation]()
-
+    // MARK: - Life Cycle 
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         dispatch_async(dispatch_get_main_queue(), {
             self.activityIndicator!.startAnimating()
         })
-
-        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+        
+        if (mapView.annotations.count != 0) {
+            print(mapView.annotations.count)
+            for annotation in mapView.annotations {
+                mapView.removeAnnotation(annotation)
+            }
+        }
+        
+        ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-    
+                var annotations = [MKPointAnnotation]()
+
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = student.coordinate
                     annotation.title = "\(student.firstName)\(student.lastName)"
                     annotation.subtitle = student.mediaURL
                     
-                    self.annotations.append(annotation)
+                    annotations.append(annotation)
                 }
                 
                 // Adding map annotation in the main thread
                 dispatch_async(dispatch_get_main_queue(), {
                     self.activityIndicator!.stopAnimating()
-                    self.mapView.addAnnotations(self.annotations)
+                    self.mapView.addAnnotations(annotations)
                 })
             }
             else {
@@ -106,23 +114,25 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
             self.activityIndicator!.startAnimating()
         })
         
-        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+        ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-            
+
+                var annotations = [MKPointAnnotation]()
+                
                 for student in studentInfo {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = student.coordinate
                     annotation.title = "\(student.firstName)\(student.lastName)"
                     annotation.subtitle = student.mediaURL
                     
-                    self.annotations.append(annotation)
+                    annotations.append(annotation)
                 }
                 
                 // Adding map annotation in the main thread
                 dispatch_async(dispatch_get_main_queue(), {
                     self.activityIndicator!.stopAnimating()
-                    self.mapView.addAnnotations(self.annotations)
+                    self.mapView.addAnnotations(annotations)
                 })
             }
             else {
@@ -135,23 +145,32 @@ class StudentMapViewController : UIViewController, MKMapViewDelegate {
     
     @IBAction func pinButtonClicked(sender: AnyObject) {
         
-        let currentUserName = UdacityClient.sharedInstance().fullName
-        
-        if currentUserName != nil {
+        // Send a query to check whether there is only one annotation associated with the current user 
+        ParseClient.sharedInstance().queryStudentLocation() { (studentName, errorString) in
             
-            let alertView = UIAlertController(title: nil, message: "User \"\(currentUserName!)\" Has Already Posted a Student Location. Would You Like to Overwrite Their Location?", preferredStyle: .Alert)
-            
-            let OverWriteAction = UIAlertAction(title: "Overwrite", style: .Default , handler:overWriteStudentInfo)
-            let CancelAction    = UIAlertAction(title: "Cancel", style: .Default, handler:nil)
-            
-            alertView.addAction(OverWriteAction)
-            alertView.addAction(CancelAction)
+            if let _ = studentName {
                 
-            presentViewController(alertView, animated: true, completion: nil)
-            
-        } else {
-            self.performSegueWithIdentifier("moveFromMapView", sender: nil)
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                let alertView = UIAlertController(title: nil, message: "User \"\(studentName!)\" Has Already Posted a Student Location. Would You Like to Overwrite Their Location?", preferredStyle: .Alert)
+                
+                let OverWriteAction = UIAlertAction(title: "Overwrite", style: .Default , handler:self.overWriteStudentInfo)
+                let CancelAction    = UIAlertAction(title: "Cancel", style: .Default, handler:nil)
+                
+                alertView.addAction(OverWriteAction)
+                alertView.addAction(CancelAction)
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                })
+                    
+                
+            }
+            else {
+                 dispatch_async(dispatch_get_main_queue(), {
+                self.performSegueWithIdentifier("moveFromMapView", sender: nil)
+                })
+            }
         }
+
     }
     
     func overWriteStudentInfo(alertAction: UIAlertAction!) -> Void {

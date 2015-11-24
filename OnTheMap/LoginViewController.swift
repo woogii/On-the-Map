@@ -71,9 +71,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
             let alertView = UIAlertController(title:"", message:"Empty Email or Password", preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
             self.presentViewController(alertView, animated: true, completion: nil)
-        
         }
-        
     }
     
     
@@ -106,7 +104,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
                 if allPermsGranted {
                   
                     // login with user access token from facebook
-                    UdacityClient.sharedInstance().postLoginSessionWithFB( result.token.tokenString) { (success, error) in
+                    UdacityClient.sharedInstance().processAuthenticationWithFB( result.token.tokenString) { (success, error) in
                         if error == nil {
                             self.completeLogin()
                         }

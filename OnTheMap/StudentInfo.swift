@@ -17,6 +17,7 @@ class StudentInfo : NSObject, MKAnnotation {
     let coordinate : CLLocationCoordinate2D
     let lastName : String
     let firstName : String
+    
 
     init(dictionary: [String:AnyObject]){
         lastName = dictionary["lastName"] as! String
@@ -38,5 +39,9 @@ class StudentInfo : NSObject, MKAnnotation {
         }
     
         return studentInfo
-    }    
+    }
+    
+    static func currentStudentInfo(result:[String:AnyObject])->StudentInfo {
+        return StudentInfo(dictionary: result)
+    }
 }

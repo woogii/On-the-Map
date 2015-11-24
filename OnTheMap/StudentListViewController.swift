@@ -10,7 +10,8 @@ import UIKit
 
 class StudentListViewController : UIViewController {
     
-    // MARK: Properties
+    // MARK: - Properties
+    
     @IBOutlet weak var studentsTableView: UITableView!
     var activityIndicator:UIActivityIndicatorView!
     let cellIdentifier = "studentListViewCell"
@@ -34,7 +35,7 @@ class StudentListViewController : UIViewController {
         super.viewWillAppear(animated)
         deselectAllRows()
         
-        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+        ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
                 ParseClient.sharedInstance().studentInfo = studentInfo
@@ -56,10 +57,12 @@ class StudentListViewController : UIViewController {
         }
     }
 
+    // MARK: - UIView Actions
+
     @IBAction func refreshButtonClicked(sender: AnyObject) {
         activityIndicator.startAnimating()
         
-        ParseClient.sharedInstance().getStudentInfo() { (studentInfo, errorString) in
+        ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
                 ParseClient.sharedInstance().studentInfo = studentInfo
@@ -98,21 +101,15 @@ class StudentListViewController : UIViewController {
 
 extension StudentListViewController : UITableViewDelegate, UITableViewDataSource{
     
-    
+    // MARK: - TableView delegate methods
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
      
         /* Get cell type */
-        //let cellReuseIdentifier = "StudentListViewCell"
         let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StudentListTableViewCell
         
         /* Set cell defaults */
-        //cell.textLabel!.text = "\(student.firstName)\(student.lastName)"
-        //cell.detailTextLabel!.text = student.mediaURL
-        //cell.imageView!.image = UIImage(named: "pin")
-        //cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
-       
         cell.nameLabel!.text = "\(student.firstName)\(student.lastName)"
         cell.urlLabel!.text = student.mediaURL
         cell.customImageView!.image = UIImage(named: "pin")

@@ -15,7 +15,6 @@ class UdacityClient : NSObject {
     var userID: String? = nil
     var lastName: String? = nil
     var firstName: String? = nil
-    var fullName: String?
   
 
     override init() {
@@ -31,7 +30,7 @@ class UdacityClient : NSObject {
             
             if success {
                 self.userID = userID
-                
+                print(self.userID)
                 self.getUserData(userID!) { (success, errorString) in
 
                     completionHandler(success: success, erroString: errorString)
@@ -43,7 +42,27 @@ class UdacityClient : NSObject {
     }
     
     
+    func processAuthenticationWithFB(accessToken:String, completionHandler:(success:Bool, erroString:String?)->Void) {
+            
+            self.postLoginSessionWithFB(accessToken) { ( success, userID, errorString) in
+                
+                if success {
+                    self.userID = userID
+                    print(self.userID)
+                    
+                    self.getUserData(userID!) { (success, errorString) in
+                        completionHandler(success: success, erroString: errorString)
+                    }
+                } else {
+                    completionHandler(success: success, erroString: errorString)
+                }
+            }
+    }
+
+    
+    
     func getUserData( userID:String, completionHandler: (success:Bool, errorString:String?)->Void) {
+        
         print(userID)
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userID)")!)
         request.HTTPMethod = "GET"
@@ -61,7 +80,6 @@ class UdacityClient : NSObject {
                         self.lastName = last_name
                         if let first_name = result.valueForKey("first_name") as? String{
                             self.firstName = first_name
-                            self.fullName = "\(self.firstName!)\(self.lastName!)"
                             completionHandler( success: true, errorString:nil)
                         }
                     }
@@ -108,7 +126,7 @@ class UdacityClient : NSObject {
             }
             
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-            //print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             UdacityClient.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
         }
@@ -188,7 +206,7 @@ class UdacityClient : NSObject {
         }
     }
 
-    func postLoginSessionWithFB ( accessToken :String, completionHandler : (success:Bool,  errorString:String?)-> Void)  {
+    func postLoginSessionWithFB ( accessToken :String, completionHandler : (success:Bool, userID:String?, errorString:String?)-> Void)  {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
@@ -201,15 +219,18 @@ class UdacityClient : NSObject {
             
             if let err = error {
                 print(err)
-                completionHandler(success: false, errorString: "The Internet connection appears to be offline")
+                completionHandler(success: false, userID:nil, errorString: "The Internet connection appears to be offline")
             } else {
                 
-                if let accountInfo = JSONResult["session"] as? NSDictionary {
-                    print(accountInfo["id"])
-                    completionHandler(success: true, errorString: nil)
+                if let accountInfo = JSONResult["account"] as? NSDictionary {
+                    
+                    if let userID = accountInfo["key"] as? String {
+                        
+                        completionHandler(success: true, userID: userID, errorString: nil)
+                    }
             
                 } else {
-                    completionHandler(success: false, errorString: "Invalid Email or Password")
+                    completionHandler(success: false, userID:nil, errorString: "Invalid Email or Password")
                 }
             }
             
@@ -237,7 +258,9 @@ class UdacityClient : NSObject {
         
         return task
     }
-
+    
+     
+    /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
         var parsedResult: AnyObject!
@@ -251,6 +274,7 @@ class UdacityClient : NSObject {
         completionHandler(result: parsedResult, error: nil)
     }
 
+    // MARK: - Shared Instance
     class func sharedInstance()->UdacityClient {
         
         struct Singleton {

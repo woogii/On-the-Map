@@ -28,7 +28,6 @@ class InformationPostingViewController : UIViewController, UITextViewDelegate {
     var tapRecognizer:UITapGestureRecognizer? = nil
     var coordinates: CLLocationCoordinate2D? = nil
     var activityIndicator: UIActivityIndicatorView!
-        
     let regionRadius:CLLocationDistance = 1000.0
 
     // MARK: - Life Cycle
@@ -133,7 +132,7 @@ extension InformationPostingViewController : MKMapViewDelegate {
     }
     
     func showMap() {
-      
+        
         inputLinkTextView.hidden = false
         mapView.hidden = false
         submitButton.hidden = false
@@ -185,13 +184,13 @@ extension InformationPostingViewController : MKMapViewDelegate {
         let longitude:String = "\(self.coordinates!.longitude)"
         
         activityIndicator!.startAnimating()
-        
-        ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
-                success, errorString in
+ 
+        ParseClient.sharedInstance().updateStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+            success, errorString in
             
             if errorString != nil {
                 dispatch_async(dispatch_get_main_queue(), {
-                
+                    
                     let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
                     alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
                     self.presentViewController(alertView, animated: true, completion: nil)
@@ -200,9 +199,25 @@ extension InformationPostingViewController : MKMapViewDelegate {
                 self.activityIndicator!.stopAnimating()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
-
             
         }
+
+//        ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+//                success, errorString in
+//            
+//            if errorString != nil {
+//                dispatch_async(dispatch_get_main_queue(), {
+//                
+//                    let alertView = UIAlertController(title:"", message:"Fail to send a link. Please try again.", preferredStyle: .Alert)
+//                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+//                    self.presentViewController(alertView, animated: true, completion: nil)
+//                })
+//            } else {
+//                self.activityIndicator!.stopAnimating()
+//                self.dismissViewControllerAnimated(true, completion: nil)
+//            }
+//
+//        }
     
     }
     
