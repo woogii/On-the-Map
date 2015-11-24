@@ -74,6 +74,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
             let alertView = UIAlertController(title:"", message:"Empty Email or Password", preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
             self.presentViewController(alertView, animated: true, completion: nil)
+            activityIndicator!.stopAnimating()
         }
     }
     
