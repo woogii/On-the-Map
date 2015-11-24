@@ -1,1 +1,2 @@
 # On-the-Map
+This application allow users to see information posted by other students who are attending a course in Udacity. The map will contain pins that show information where other students have reported studying.  By tapping on the pin users can see URL for something the students finds interesting. The user will be able to add their own data by posting a string that can be geocoded to a location, and a URL.
