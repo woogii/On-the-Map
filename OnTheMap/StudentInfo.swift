@@ -12,7 +12,7 @@ import Contacts
 
 // MARK: - StudentInfo : NSObject, MKAnnotation 
 
-class StudentInfo : NSObject, MKAnnotation {
+struct StudentInfo {
 
     // MARK : - Properties 
     
@@ -33,7 +33,6 @@ class StudentInfo : NSObject, MKAnnotation {
         title = lastName + firstName
         coordinate = CLLocationCoordinate2D(latitude : latitude, longitude: longitude )
         
-        super.init()
     }
     
     // MARK : - Custom Static Function
