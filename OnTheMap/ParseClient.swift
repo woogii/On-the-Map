@@ -20,7 +20,7 @@ class ParseClient : NSObject {
     var objectId :String? = nil
     
     let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-    let restApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+    let restApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY" 
     let parseApplicationIDHeader =  "X-Parse-Application-Id"
     let restApiKeyHeader = "X-Parse-REST-API-Key"
     
@@ -55,7 +55,8 @@ class ParseClient : NSObject {
                     completionHandler(result: studentInfo, errorString: nil)
                 }
                 else {
-                    completionHandler(result: nil, errorString: error )
+                    
+                    completionHandler(result: nil, errorString: NSError(domain: "GetStudentInformation", code: 1, userInfo: nil) )
                 }
             }
         }
