@@ -87,12 +87,18 @@ class ParseClient : NSObject {
             else {
                 
                 if let result = JSONResult["results"] as? [NSDictionary] {
-                    self.objectId = result[0].valueForKey("objectId") as? String
-                    let firstName = result[0].valueForKey("firstName") as? String
-                    let lastName = result[0].valueForKey("lastName") as? String
-                    let fullName = "\(firstName!)\(lastName!)"
-                    print(self.objectId)
-                    print(fullName) 
+                    
+                    var fullName: String? = nil
+                    
+                    if( result.count > 0 ) {        // check whether there is user information for given clause 
+                        self.objectId = result[0].valueForKey("objectId") as? String
+                        let firstName = result[0].valueForKey("firstName") as? String
+                        let lastName = result[0].valueForKey("lastName") as? String
+                        fullName = "\(firstName!)\(lastName!)"
+                        print(self.objectId)
+                        print(fullName)
+                    }
+                    
                     completionHandler(studentName: fullName , errorString: nil)
                 }
                 else {

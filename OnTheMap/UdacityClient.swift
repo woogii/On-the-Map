@@ -247,7 +247,6 @@ class UdacityClient : NSObject {
             request.setValue(xsrfCookie.value , forHTTPHeaderField: "X-XSRF-TOKEN")
         }
         
-        
         taskForPOSTMethod(request) {  JSONResult, error in
             
             if let err = error {

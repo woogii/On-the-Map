@@ -158,24 +158,46 @@ extension InformationPostingViewController : MKMapViewDelegate {
         
         activityIndicator!.startAnimating()
         
-        ParseClient.sharedInstance().updateStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+        if ( ParseClient.sharedInstance().objectId != nil) {        // if a user exists
+            
+            ParseClient.sharedInstance().updateStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
             success, errorString in
             
-            if errorString != nil {
-                dispatch_async(dispatch_get_main_queue(), {
+                if errorString != nil {
+                    dispatch_async(dispatch_get_main_queue(), {
                     
-                    let alertView = UIAlertController(title:"", message:errorString?.localizedDescription, preferredStyle: .Alert)
-                    alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
-                    self.presentViewController(alertView, animated: true, completion: nil)
+                        let alertView = UIAlertController(title:"", message:errorString?.localizedDescription, preferredStyle: .Alert)
+                        alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                        self.presentViewController(alertView, animated: true, completion: nil)
+                        self.activityIndicator!.stopAnimating()
+                    })
+                } else {
                     self.activityIndicator!.stopAnimating()
-                })
-            } else {
-                self.activityIndicator!.stopAnimating()
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
             
+            }
+        } else {            // if a new user submits location information for the first time 
+            
+            // Send a Http request(POST) to add new user information on the server
+            ParseClient.sharedInstance().postStudentLocation(latitude,longitude: longitude, mediaURL: inputLinkTextView.text, mapString: inputLocationTextView.text) {
+                success, errorString in
+                
+                if errorString != nil {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        
+                        let alertView = UIAlertController(title:"", message:errorString?.localizedDescription, preferredStyle: .Alert)
+                        alertView.addAction(UIAlertAction(title:"Dismiss", style:.Default, handler:nil))
+                        self.presentViewController(alertView, animated: true, completion: nil)
+                        self.activityIndicator!.stopAnimating()
+                    })
+                } else {
+                    self.activityIndicator!.stopAnimating()
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+                
+            }
         }
-        
     }
 
     // MARK: - Custom Function

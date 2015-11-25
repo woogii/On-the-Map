@@ -34,7 +34,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Login to Udacity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hl7-Mf-xPn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Udacity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hl7-Mf-xPn">
                                 <rect key="frame" x="41" y="180" width="239" height="21"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -63,10 +63,10 @@
                                     <action selector="facebookLoginClicked:" destination="EXd-pG-fY2" eventType="touchUpInside" id="Fv0-Dc-j8h"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgB-zQ-Axy">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xgB-zQ-Axy">
                                 <rect key="frame" x="16" y="217" width="288" height="43"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hwd-QI-LRI">
+                                    <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hwd-QI-LRI">
                                         <rect key="frame" x="8" y="10" width="280" height="24"/>
                                         <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -79,13 +79,14 @@
                                     <constraint firstAttribute="bottomMargin" secondItem="Hwd-QI-LRI" secondAttribute="bottom" constant="1" id="Ck4-VI-YuB"/>
                                     <constraint firstItem="Hwd-QI-LRI" firstAttribute="top" secondItem="xgB-zQ-Axy" secondAttribute="topMargin" constant="2" id="OqN-yh-zDl"/>
                                     <constraint firstItem="Hwd-QI-LRI" firstAttribute="leading" secondItem="xgB-zQ-Axy" secondAttribute="leadingMargin" id="WI7-KQ-1Aj"/>
+                                    <constraint firstAttribute="height" constant="43" id="mZO-4J-Ifu"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHM-4X-0Bp">
                                 <rect key="frame" x="16" y="268" width="288" height="43"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wwh-Bt-HFX">
-                                        <rect key="frame" x="8" y="11" width="280" height="24"/>
+                                        <rect key="frame" x="6" y="11" width="280" height="24"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
@@ -93,9 +94,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Wwh-Bt-HFX" firstAttribute="top" secondItem="DHM-4X-0Bp" secondAttribute="topMargin" constant="3" id="Ie0-M8-XIH"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="Wwh-Bt-HFX" secondAttribute="trailing" constant="-8" id="TtU-3I-TMe"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Wwh-Bt-HFX" secondAttribute="trailing" constant="-6" id="TtU-3I-TMe"/>
                                     <constraint firstItem="Wwh-Bt-HFX" firstAttribute="bottom" secondItem="DHM-4X-0Bp" secondAttribute="bottomMargin" id="feh-QR-e4w"/>
-                                    <constraint firstItem="Wwh-Bt-HFX" firstAttribute="leading" secondItem="DHM-4X-0Bp" secondAttribute="leadingMargin" id="l7b-wM-3eK"/>
+                                    <constraint firstAttribute="height" constant="43" id="fj6-qC-pya"/>
+                                    <constraint firstItem="Wwh-Bt-HFX" firstAttribute="leading" secondItem="DHM-4X-0Bp" secondAttribute="leadingMargin" constant="-2" id="l7b-wM-3eK"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyq-O4-kCh">
@@ -125,10 +127,10 @@
                             <constraint firstItem="hl7-Mf-xPn" firstAttribute="leading" secondItem="97g-sw-ZTW" secondAttribute="leadingMargin" constant="25" id="2z4-zW-DLC"/>
                             <constraint firstItem="HYp-3K-xqG" firstAttribute="top" secondItem="sQH-cX-qvW" secondAttribute="bottom" constant="99" id="3Kv-zI-vX6"/>
                             <constraint firstAttribute="leadingMargin" secondItem="d7h-Nx-nUD" secondAttribute="leading" id="AlG-c2-pzo"/>
+                            <constraint firstItem="xgB-zQ-Axy" firstAttribute="top" secondItem="97g-sw-ZTW" secondAttribute="top" constant="217" id="Apt-MX-NPz"/>
                             <constraint firstItem="sQH-cX-qvW" firstAttribute="leading" secondItem="97g-sw-ZTW" secondAttribute="leadingMargin" constant="39" id="HtG-xA-zw2"/>
                             <constraint firstAttribute="leadingMargin" secondItem="eyq-O4-kCh" secondAttribute="leading" id="Vfj-xp-l0O"/>
                             <constraint firstItem="7aA-9R-hue" firstAttribute="top" secondItem="Sxj-3v-7vX" secondAttribute="bottom" constant="74" id="XI9-jy-UZv"/>
-                            <constraint firstItem="DHM-4X-0Bp" firstAttribute="top" secondItem="97g-sw-ZTW" secondAttribute="top" constant="268" id="Yxn-wV-ewN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DHM-4X-0Bp" secondAttribute="trailing" id="dX9-ti-sgN"/>
                             <constraint firstAttribute="leadingMargin" secondItem="xgB-zQ-Axy" secondAttribute="leading" id="f8O-wM-Hvb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eyq-O4-kCh" secondAttribute="trailing" id="fVA-2z-BAF"/>
