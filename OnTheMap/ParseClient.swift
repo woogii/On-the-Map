@@ -16,7 +16,7 @@ class ParseClient : NSObject {
     // MARK : - Properties 
     
     var session : NSURLSession
-    var studentInfo = [StudentInfo]()
+    
     var objectId :String? = nil
     
     let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"

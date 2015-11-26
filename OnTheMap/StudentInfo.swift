@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import Contacts
 
-// MARK: - StudentInfo : NSObject, MKAnnotation 
+// MARK: - StudentInfo
 
 struct StudentInfo {
 
@@ -22,9 +22,13 @@ struct StudentInfo {
     let lastName : String
     let firstName : String
     
+    // Move studentInfo array from PareClient class to StudentInfo struct in order for following MVC Pattern
+    static var studentInfo = [StudentInfo]()
+    
     // MARK : - Init Method
     
     init(dictionary: [String:AnyObject]){
+        
         lastName = dictionary["lastName"] as! String
         firstName  = dictionary["firstName"] as! String
         let latitude = dictionary["latitude"] as! Double
@@ -38,6 +42,7 @@ struct StudentInfo {
     // MARK : - Custom Static Function
     
     static func studentInfoFromResults(results:[[String: AnyObject]])->[StudentInfo] {
+        
         var studentInfo = [StudentInfo]()
     
         for result in results {
@@ -45,4 +50,5 @@ struct StudentInfo {
         }
         return studentInfo
     }
+    
 }

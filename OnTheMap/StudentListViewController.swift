@@ -42,7 +42,9 @@ class StudentListViewController : UIViewController {
         ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-                ParseClient.sharedInstance().studentInfo = studentInfo
+                // ParseClient.sharedInstance().studentInfo = studentInfo
+                StudentInfo.studentInfo = studentInfo
+                
                 dispatch_async(dispatch_get_main_queue()) {
                     self.studentsTableView.reloadData()
                 }
@@ -70,7 +72,8 @@ class StudentListViewController : UIViewController {
         ParseClient.sharedInstance().getStudentLocation() { (studentInfo, errorString) in
             
             if let studentInfo = studentInfo {
-                ParseClient.sharedInstance().studentInfo = studentInfo
+                // ParseClient.sharedInstance().studentInfo = studentInfo
+                StudentInfo.studentInfo = studentInfo
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicator.stopAnimating()
                     self.studentsTableView.reloadData()
@@ -113,7 +116,8 @@ extension StudentListViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
      
         /* Get cell type */
-        let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
+        // let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
+        let student = StudentInfo.studentInfo[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StudentListTableViewCell
         
         /* Set cell defaults */
@@ -127,11 +131,13 @@ extension StudentListViewController : UITableViewDelegate, UITableViewDataSource
      }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ParseClient.sharedInstance().studentInfo.count
+        // return ParseClient.sharedInstance().studentInfo.count
+        return StudentInfo.studentInfo.count
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
+        // let student = ParseClient.sharedInstance().studentInfo[indexPath.row]
+        let student = StudentInfo.studentInfo[indexPath.row]
         UIApplication.sharedApplication().openURL(NSURL(string:student.mediaURL)!)
         
     }
